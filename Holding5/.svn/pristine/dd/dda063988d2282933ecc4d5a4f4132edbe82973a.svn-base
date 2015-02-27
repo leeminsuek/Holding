@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrond" >
+
+    <!-- TITLE BAR -->
+
+    <RelativeLayout
+        android:id="@+id/rl_s00122_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/title_bg" >
+
+        <ImageButton
+            android:id="@+id/ib_s00122_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:background="@color/clear"
+            android:src="@drawable/selector_detail_back_btn" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/title_logo_img" />
+
+            <TextView
+                style="@style/top_detail_common"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen15dp"
+                android:text="해피인 신청" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Top Text -->
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_s00122_title_bar" >
+
+        <RelativeLayout
+            android:id="@+id/rl_s00122_contents"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/rl_s00122_top_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/dimen25dp"
+                    android:layout_marginLeft="@dimen/dimen15dp"
+                    android:layout_marginRight="@dimen/dimen15dp"
+                    android:layout_marginTop="@dimen/dimen25dp"
+                    android:background="@drawable/content_box_bg"
+                    android:padding="@dimen/dimen10dp"
+                    android:text="우리 청소년들의 든든한 멘토가 되어 주세요!!\n해피인이 되기 위해 필요한 정보를 입력해주시면 심사를 거쳐 해피인의 자격을 드립니다.\n지금 해피인이 되셔서 우리 청소년들에게 따뜻한 희망의 메세지를 전해주세요.\n\n"
+                    android:textColor="@color/color_979899"
+                    android:textSize="@dimen/dimen19pt" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_s00122_top_text"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <RadioGroup
+                    android:id="@+id/hapyy_check_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/hapyy_check_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/rgst_check_box_dw"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:text="해피인 일반"
+                        android:textColor="@color/color_505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <RadioButton
+                        android:id="@+id/hapyy_check_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen50dp"
+                        android:button="@drawable/rgst_check_box"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:text="해피인 단체"
+                        android:textColor="@color/color_505051"
+                        android:textSize="@dimen/dimen21pt" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/ib_s00122_text_1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/input_box_bg"
+                        android:ems="10"
+                        android:hint="생년월일"
+                        android:inputType="date"
+                        android:maxLength="12"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:paddingRight="@dimen/dimen5dp"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen19pt" >
+
+                        <requestFocus />
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/ib_s00122_text_2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/input_box_bg"
+                        android:ems="10"
+                        android:hint="학력"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:paddingRight="@dimen/dimen5dp"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen19pt" />
+
+                    <EditText
+                        android:id="@+id/ib_s00122_text_3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/input_box_bg"
+                        android:ems="10"
+                        android:hint="직업"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:paddingRight="@dimen/dimen5dp"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen19pt" />
+
+                    <EditText
+                        android:id="@+id/ib_s00122_text_4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/input_box_bg"
+                        android:ems="10"
+                        android:hint="이력"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:paddingRight="@dimen/dimen5dp"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen19pt" />
+
+                    <EditText
+                        android:id="@+id/ib_s00122_text_5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/input_box_bg"
+                        android:ems="10"
+                        android:hint="해피인 활동계획"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:paddingRight="@dimen/dimen5dp"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen19pt" />
+
+                    <EditText
+                        android:id="@+id/ib_s00122_text_6"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/input_box_bg"
+                        android:hint="연락처"
+                        android:inputType="phone"
+                        android:maxLength="12"
+                        android:paddingLeft="@dimen/dimen5dp"
+                        android:paddingRight="@dimen/dimen5dp"
+                        android:textColor="#979899"
+                        android:textSize="@dimen/dimen19pt" />
+
+                    <Button
+                        android:id="@+id/ib_s00122_submit"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/happy_rqst_btn_dw"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen27pt" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

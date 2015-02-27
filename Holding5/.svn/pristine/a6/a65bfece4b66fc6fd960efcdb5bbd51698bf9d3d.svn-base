@@ -1,0 +1,498 @@
+package com.br.holding5.sc008;
+
+import java.io.WriteAbortedException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.WriteFileLog;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.sc003.gallery.DeleteImageView;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+
+public class SC008_S11118 extends BaseActivity{
+
+	Context context;
+
+
+	ImageView imageView_back;
+	RadioButton radio_group_1;
+	RadioButton radio_group_2;
+	RadioButton radio_group_3;
+	RadioButton radio_group_4;
+	RadioButton radio_group_5;
+	RadioButton radio_group_6;
+	RadioButton radio_group_7;
+	RadioButton radio_group_8;
+	RadioButton radio_group_9;
+	RadioButton radio_group_10;
+	RadioButton radio_group2_1;
+	RadioButton radio_group2_2;
+	RadioButton radio_group2_3;
+	RadioButton radio_group2_4;
+	RadioButton radio_group2_5;
+	EditText editText_contents;
+	private ImageButton mModifyBtn;
+	private ImageButton mDeleteBtn;
+	private DeleteImageView mPhotoView1;
+	private DeleteImageView mPhotoView2;
+	private DeleteImageView mPhotoView3;
+	private DeleteImageView mPhotoView4;
+	private DeleteImageView mPhotoView5;
+	private DeleteImageView mPhotoView6;
+	private DeleteImageView mPhotoView7;
+	private LinearLayout	mImageLayout;
+	private ArrayList<DeleteImageView> mPictureArr = new ArrayList<DeleteImageView>();
+	private HorizontalScrollView mHorizontalScrollView;
+	int groupRadioButton1_num = 1;
+	int groupRadioButton2_num = 1;
+	private int mSeq = 0;
+	private int mMsgType = 0;
+	private String mUserId = "";
+	ArrayList<RadioButton> groupRadioButton1 = new ArrayList<RadioButton>();
+	ArrayList<RadioButton> groupRadioButton2 = new ArrayList<RadioButton>();
+
+
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		try {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.s11118);
+
+			mUserId = myApp.getUserInfo().getUserId();
+			init();
+
+			Intent intent = getIntent();
+			mSeq = intent.getIntExtra("seq", -1);
+			mMsgType = intent.getIntExtra("msgType", -1);			
+
+			getData();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	} 
+
+
+
+	private void init() {
+		try {
+			context = this;
+			mHorizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView1);
+			imageView_back = (ImageView)findViewById(R.id.imageView_back);
+			radio_group_1 = (RadioButton)findViewById(R.id.radio_group_1);
+			radio_group_2 = (RadioButton)findViewById(R.id.radio_group_2);
+			radio_group_3 = (RadioButton)findViewById(R.id.radio_group_3);
+			radio_group_4 = (RadioButton)findViewById(R.id.radio_group_4);
+			radio_group_5 = (RadioButton)findViewById(R.id.radio_group_5);
+			radio_group_6 = (RadioButton)findViewById(R.id.radio_group_6);
+			radio_group_7 = (RadioButton)findViewById(R.id.radio_group_7);
+			radio_group_8 = (RadioButton)findViewById(R.id.radio_group_8);
+			radio_group_9 = (RadioButton)findViewById(R.id.radio_group_9);
+			radio_group_10 = (RadioButton)findViewById(R.id.radio_group_10);
+			radio_group2_1 = (RadioButton)findViewById(R.id.radio_group2_1);
+			radio_group2_2 = (RadioButton)findViewById(R.id.radio_group2_2);
+			radio_group2_3 = (RadioButton)findViewById(R.id.radio_group2_3);
+			radio_group2_4 = (RadioButton)findViewById(R.id.radio_group2_4);
+			radio_group2_5 = (RadioButton)findViewById(R.id.radio_group2_5);
+			editText_contents = (EditText)findViewById(R.id.editText_contents);
+			mImageLayout = (LinearLayout) findViewById(R.id.add_picture_layout);
+			mModifyBtn = (ImageButton) findViewById(R.id.modify_btn);
+			mDeleteBtn = (ImageButton) findViewById(R.id.delete_btn);
+			mImageLayout = (LinearLayout) findViewById(R.id.add_picture_layout);
+			mPhotoView1 = (DeleteImageView) findViewById(R.id.photo_view_1);
+			mPhotoView2 = (DeleteImageView) findViewById(R.id.photo_view_2);
+			mPhotoView3 = (DeleteImageView) findViewById(R.id.photo_view_3);
+			mPhotoView4 = (DeleteImageView) findViewById(R.id.photo_view_4);
+			mPhotoView5 = (DeleteImageView) findViewById(R.id.photo_view_5);
+			mPhotoView6 = (DeleteImageView) findViewById(R.id.photo_view_6);
+			mPhotoView7 = (DeleteImageView) findViewById(R.id.photo_view_7);
+
+			groupRadioButton1.add(radio_group_1);
+			groupRadioButton1.add(radio_group_2);
+			groupRadioButton1.add(radio_group_3);
+			groupRadioButton1.add(radio_group_4);
+			groupRadioButton1.add(radio_group_5);
+			groupRadioButton1.add(radio_group_6);
+			groupRadioButton1.add(radio_group_7);
+			groupRadioButton1.add(radio_group_8);
+			groupRadioButton1.add(radio_group_9);
+			groupRadioButton1.add(radio_group_10);
+
+			groupRadioButton2.add(radio_group2_1);
+			groupRadioButton2.add(radio_group2_2);
+			groupRadioButton2.add(radio_group2_3);
+			groupRadioButton2.add(radio_group2_4);
+			groupRadioButton2.add(radio_group2_5);
+
+			mPictureArr.add(mPhotoView1);
+			mPictureArr.add(mPhotoView2);
+			mPictureArr.add(mPhotoView3);
+			mPictureArr.add(mPhotoView4);
+			mPictureArr.add(mPhotoView5);
+			mPictureArr.add(mPhotoView6);
+			mPictureArr.add(mPhotoView7);
+
+			radio_group_1.setChecked(true);
+			radio_group2_1.setChecked(true);
+
+			for(int i = 0; i < groupRadioButton1.size(); i++){
+				groupRadioButton1.get(i).setTag(i);
+			}
+
+			for(int i = 0; i < groupRadioButton2.size(); i++){
+				groupRadioButton2.get(i).setTag(i);
+			}
+
+			for(int i = 0; i < groupRadioButton1.size(); i++ ){
+				groupRadioButton1.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						// TODO Auto-generated method stub
+						if(isChecked){
+							RadioButton rb = (RadioButton) buttonView;
+							groupRadioButton1_num = (Integer)rb.getTag();
+
+							for (int j = 0; j < groupRadioButton1.size(); j++) {
+
+								if(groupRadioButton1_num == j){
+									continue;
+								}else{
+									groupRadioButton1.get(j).setChecked(false);
+								}
+							}
+						}
+					}
+				});
+			}
+
+			for(int i = 0; i < groupRadioButton2.size(); i++ ){
+				groupRadioButton2.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						// TODO Auto-generated method stub
+						if(isChecked){
+							RadioButton rb = (RadioButton) buttonView;
+							groupRadioButton2_num = (Integer)rb.getTag();
+
+							for (int j = 0; j < groupRadioButton2.size(); j++) {
+
+								if(groupRadioButton2_num == j){
+									continue;
+								}else{
+									groupRadioButton2.get(j).setChecked(false);
+								}
+							}
+						}
+					}
+				});
+			}
+
+
+
+
+
+			//listener
+			//////////////////////////////////////////////////////////////////////////////
+
+			imageView_back.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+
+			mModifyBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(editText_contents.getText().toString().equals("")) {
+						BrUtilManager.getInstance().showToast(context, "내용을 입력해 주세요.");
+					}
+					else {
+						//수정하기
+						requestUpdateMsg();
+					}
+
+				}
+			});
+
+			mDeleteBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					//TODO 삭제하기
+					delMessage(mSeq);
+				}
+			});
+
+			mHorizontalScrollView.setVisibility(View.GONE);
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+
+	private void getData() {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("userId", mUserId);
+			params.put("msgType", mMsgType);
+			params.put("seq", mSeq);
+
+			AQuery aquery = new AQuery(this);
+
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			//		dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.HAPPYIN_GETMESSAGE, params, JSONObject.class, this, "happyinGetMsgCallBack");	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+
+
+	public void happyinGetMsgCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			String data = jsonObject.getString("data");
+
+
+			//			"photoName2": "http:\/\/s3-ap-northeast-1.amazonaws.com\/brainyx1\/Screenshot_2013-07-30-22-48-06.png",
+			//			  "photoName1": "http:\/\/s3-ap-northeast-1.amazonaws.com\/brainyx1\/Screenshot_2013-07-22-14-52-31.png",
+			//			  "photoName4": "",
+			//			  "photoName3": "",
+			//			  "contents": "ㅎㅎㅎㅎㅎ",
+			//			  "audioName": "http:\/\/s3-ap-northeast-1.amazonaws.com\/brainyx1\/음성 녹음 025.m4a",
+			//			  "movName": "::",
+			//			  "photoName5": "",
+			//			  "kind": 0,
+			//			  "id": "test1",
+			//			  "religion": 0,
+			//			  "memLvl": 1,
+			//			  "writeTime": "2014-12-03 17:21:36.0",
+			//			  "nickName": "zzzz",
+			//			  "seq": 107,
+			//			  "msgType": 1
+
+
+			try {
+				JSONObject job = new JSONObject(data);
+
+				String photoName1 = job.getString("photoName1");
+				String photoName2 = job.getString("photoName2");
+				String photoName3 = job.getString("photoName3");
+				String photoName4 = job.getString("photoName4");
+				String photoName5 = job.getString("photoName5");
+				String contents = job.getString("contents");
+				String audioName = job.getString("audioName");
+				String movName = job.getString("movName");
+				int kind = job.getInt("kind");
+				int religion =job.getInt("religion");
+				String id = job.getString("id");
+				String writeTime = job.getString("writeTime");
+				String memLvl = String.valueOf(job.getInt("memLvl"));
+				//				msgSeq = job.getInt("seq");
+				String nickName = job.getString("nickName");
+				//				msgType = job.getInt("msgType");
+
+				editText_contents.setText(contents);
+				editText_contents.setSelection(editText_contents.length());
+
+
+				if(photoName1.toString().length() > 10){
+					mPhotoView1.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+					mPictureArr.get(0).setPictureYn(true);
+					mPictureArr.get(0).setDeleteYn(true);
+					super.myApp.imageloder.displayImage(photoName1, mPhotoView1.getImageView());					
+				}else{
+					mPhotoView1.setVisibility(View.GONE);
+				}
+
+				if(photoName2.toString().length() > 10){
+					mPhotoView2.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+					mPictureArr.get(1).setPictureYn(true);
+					mPictureArr.get(1).setDeleteYn(true);
+					super.myApp.imageloder.displayImage(photoName2, mPhotoView2.getImageView());					
+				}else{
+					mPhotoView2.setVisibility(View.GONE);
+				}
+
+				if(photoName3.toString().length() > 10){
+					mPhotoView3.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+					mPictureArr.get(2).setPictureYn(true);
+					mPictureArr.get(2).setDeleteYn(true);
+					super.myApp.imageloder.displayImage(photoName3, mPhotoView3.getImageView());					
+				}else{
+					mPhotoView3.setVisibility(View.GONE);
+				}
+
+				if(photoName4.toString().length() > 10){
+					mPhotoView4.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+					mPictureArr.get(3).setPictureYn(true);
+					mPictureArr.get(3).setDeleteYn(true);
+					super.myApp.imageloder.displayImage(photoName4, mPhotoView4.getImageView());					
+				}else{
+					mPhotoView4.setVisibility(View.GONE);
+				}
+
+				if(photoName5.toString().length() > 10){
+					mPhotoView5.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+					mPictureArr.get(4).setPictureYn(true);
+					mPictureArr.get(4).setDeleteYn(true);
+					super.myApp.imageloder.displayImage(photoName5, mPhotoView5.getImageView());					
+				}else{
+					mPhotoView5.setVisibility(View.GONE);
+				}
+
+
+				if(audioName.toString().length() > 10){
+					mPhotoView6.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+					mPhotoView6.setAudioImage();
+					mPictureArr.get(5).setPictureYn(true);
+					mPictureArr.get(5).setDeleteYn(true);
+				}else{
+					mPhotoView6.setVisibility(View.GONE);
+				}
+
+				if(movName.toString().length() > 10){
+					mPictureArr.get(6).setPictureYn(true);
+					mPictureArr.get(6).setDeleteYn(true);
+					mPhotoView7.setVideoImage();
+					mPhotoView7.setVisibility(View.VISIBLE);
+					mHorizontalScrollView.setVisibility(View.VISIBLE);
+				}else{
+					mPhotoView7.setVisibility(View.GONE);
+				}
+				groupRadioButton1.get((kind-1)).setChecked(true);
+				groupRadioButton2.get((religion)).setChecked(true);
+				for(int i = 0 ; i < groupRadioButton1.size() ; i++) {
+					groupRadioButton1.get(i).setClickable(false);
+				}
+				for(int i = 0 ; i < groupRadioButton2.size() ; i++) {
+					groupRadioButton2.get(i).setClickable(false);
+				}
+
+			} catch (Exception e) {
+				WriteFileLog.writeException(e);
+			}
+
+		}else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+
+	private void delMessage(int msgSeq) {
+
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("seq", msgSeq);
+
+			AQuery aquery = new AQuery(this);
+
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			//		dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.HAPPYIN_DELETEMESSAGE, params, JSONObject.class, this, "hopeDelMsgCallBack");	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+
+
+	public void hopeDelMsgCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		try {
+			boolean result = jsonObject.getBoolean("result");
+			String message = jsonObject.getString("message");
+			if(result) {
+				BrUtilManager.getInstance().showToast(this, message);
+				setResult(3);
+				finish();
+			}else {
+				BrUtilManager.getInstance().showToast(this, message);
+			}	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+
+	private void requestUpdateMsg() {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("seq", mSeq);
+			params.put("contents", editText_contents.getText().toString());
+			AQuery aquery = new AQuery(this);
+
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			//		dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.HAPPYIN_UPDATEMESSAGE, params, JSONObject.class, this, "hopeUpdateMsgCallBack");	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+
+		
+	}
+
+
+	public void hopeUpdateMsgCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		try {
+			boolean result = jsonObject.getBoolean("result");
+			String message = jsonObject.getString("message");
+			if(result) {
+				BrUtilManager.getInstance().showToast(this, message);
+				setResult(2);
+				finish();
+				
+			}else {
+				BrUtilManager.getInstance().showToast(this, message);
+			}	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+}
+

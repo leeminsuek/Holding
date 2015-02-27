@@ -1,0 +1,166 @@
+package com.br.holding5.s11113;
+
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.s00121.S00121;
+import com.br.holding5.s01116.S01116;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+
+/**
+ * 운영자 건의 게시판
+ * 건의 사항 글작성 
+ * @author win
+ *
+ */
+public class S11113 extends BaseActivity{
+	private EditText mEditText;
+	private ImageButton mBackBtn;
+	private ImageButton mSubmit;
+	private boolean mChangeDataYn = false;
+	
+	private int mSeq;
+	private String mContents;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.s11113);
+		
+		mBackBtn = (ImageButton) findViewById(R.id.backBtn);
+		mEditText = (EditText) findViewById( R.id.editText1 );
+		mSubmit = (ImageButton) findViewById( R.id.imageButton1);
+		
+		Intent resultIntent = getIntent();
+		
+		mSeq = resultIntent.getIntExtra("seq", 0);
+		mContents = resultIntent.getStringExtra("contents");
+		
+		if( mSeq != 0 ){
+			mEditText.setText(mContents);
+			
+		}
+		
+		mSubmit.setOnClickListener( new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String text  = mEditText.getText().toString();				
+				String message = "10~500자 까지 작성이 가능합니다.";
+				
+				if( text.length() < 11 ){ // 10자 미만
+					BrUtilManager.getInstance().showToast(S11113.this, message);
+					
+				}else if( text.length() > 500 ){ //500자 이상
+					BrUtilManager.getInstance().showToast(S11113.this, message);
+					text.toString().substring(0 , 500);
+					mEditText.setText( text );
+				}else{
+					if( mSeq != 0 ){	// 수정
+						updateProposal( text, "test1", mSeq);
+					}else{				// 작성
+						insertProposal(text , "test1");
+					}
+				}
+			}
+		});
+		
+		mBackBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+	}
+	
+	
+	//등록 
+	private void insertProposal(String content ,String userId) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put( "contents", content );
+		params.put( "userId", userId); //아이디 가져와서 박아줘야함
+		
+		AQuery aquery = new AQuery(this);
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.PROPOSAL_INSERT, params, JSONObject.class, this, "insertProCallBack");
+	}
+	
+	//등록 callback -> 리스트(S00121)
+	public void insertProCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+	
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			mChangeDataYn = true;
+			BrUtilManager.getInstance().showToast(this, message);
+			setResult((mChangeDataYn) ? 1 : 2); 
+			finish();
+		}else {
+			mChangeDataYn = false;
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+	
+	//  수정
+	private void updateProposal(String content ,String userId, int seq) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put( "contents", content );
+		params.put( "userId", userId); //아이디 가져와서 박아줘야함
+		params.put( "seq", seq );
+		
+		AQuery aquery = new AQuery(this);
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.PROPOSAL_UPDATE, params, JSONObject.class, this, "updateProCallBack");
+	}
+	
+	// 수정 callback -> 상세화면(S01116)
+	public void updateProCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		
+		BrUtilManager.getInstance().showToast(this, message);
+		
+		if(result) {
+			mChangeDataYn = true;
+			setResult((mChangeDataYn) ? 1 : 2); 
+			Intent intent = new Intent();
+			intent.putExtra("contents", mContents);
+			setIntent(intent);
+			finish();	
+
+		}else {
+			mChangeDataYn = false;
+			setResult((mChangeDataYn) ? 1 : 2); 
+		}
+	}
+	
+	
+	
+}

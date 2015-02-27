@@ -1,0 +1,235 @@
+package com.br.holding5.sc008;
+
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.base.BaseActivity;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+
+public class SC008 extends BaseActivity{
+	
+	Context context;
+	Button button_write_1;
+	Button button_write_2;
+	Button button_write_3;
+	Button button_write_4;
+	Button button_write_5;
+	Button button_write_6;
+	Button button_write_7;
+	Button button_write_8;
+	ImageView imageView_back;
+	
+	String testUserId = "test1";		//임시테스트아이디
+	int msgType = 1;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.s00123);
+		
+		init();
+		
+	}
+
+
+
+	private void init() {
+		// TODO Auto-generated method stub
+		context = this;
+		button_write_1 = (Button)findViewById(R.id.button_write_1);
+		button_write_2 = (Button)findViewById(R.id.button_write_2);
+		button_write_3 = (Button)findViewById(R.id.button_write_3);
+		button_write_4 = (Button)findViewById(R.id.button_write_4);
+		button_write_5 = (Button)findViewById(R.id.button_write_5);
+		button_write_6 = (Button)findViewById(R.id.button_write_6);
+		button_write_7 = (Button)findViewById(R.id.button_write_7);
+		button_write_8 = (Button)findViewById(R.id.button_write_8);
+		imageView_back = (ImageView)findViewById(R.id.imageView_back);
+		
+		//listener
+		//////////////////////////////////////////////////////////////////////////////
+		imageView_back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
+		button_write_1.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(1);				
+			}
+		});
+		
+		button_write_2.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				happyinCheck(2);
+				Intent intent = new Intent(SC008.this, SC008_S00124.class);
+				startActivity(intent);
+			}
+		});
+		
+		button_write_3.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(3);
+			}
+		});
+		
+		button_write_4.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(4);
+			}
+		});
+		
+		button_write_5.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(5);
+			}
+		});
+		
+		button_write_6.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(6);
+			}
+		});
+		
+		button_write_7.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(7);
+			}
+		});
+		
+		button_write_8.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				happyinCheck(8);
+				
+			}
+		});
+		
+		
+	}
+	
+	private void doMessage(int type) {
+		// TODO Auto-generated method stub
+			Intent intent = new Intent(SC008.this, SC008_S11115.class);
+			intent.putExtra("type", type);
+			startActivity(intent);
+	}
+	
+	
+	
+	private void happyinCheck(int tempMsgType) {
+		msgType = tempMsgType;
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", testUserId);
+		params.put("msgType", msgType);
+		
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.HAPPYIN_ISMESSAGE, params, JSONObject.class, this, "happyinCheckCallBack");
+	}
+
+	public void happyinCheckCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			String data = jsonObject.getString("data");
+			if(data.toString().equals("true")){					//등록된 게시물이 있을때
+				Intent intent = new Intent(SC008.this, SC008_S01117.class);
+				intent.putExtra("userId", testUserId);
+				intent.putExtra("msgType", msgType);
+				startActivity(intent);
+			}else{																		//등록된 게시물이 없을때
+				Intent intent = new Intent(SC008.this, SC004_S11115.class);
+				intent.putExtra("userId", testUserId);
+				intent.putExtra("msgType", msgType);
+				startActivity(intent);
+			}
+			
+		}else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+	
+	
+	
+	
+	//base
+	private void happyinBase(int tempMsgType) {
+		msgType = tempMsgType;
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", testUserId);
+		
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this)); 
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.HAPPYIN_ISMESSAGE, params, JSONObject.class, this, "happyinBaseCallBack");
+	}
+
+	public void happyinBaseCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			
+			
+		}else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+	
+	
+}
+

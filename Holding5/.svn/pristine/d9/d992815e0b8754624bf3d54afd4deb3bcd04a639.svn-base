@@ -1,0 +1,661 @@
+package com.br.holding5.sc002;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.ms.BadgeView;
+import com.br.holding5.sc002.S00013_ListAdapter.statusCallBack;
+import com.br.holding5.sc004.SC004;
+import com.br.holding5.sc014.SC014;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+import com.brainyxlib.BrUtilManager.dialogclick;
+
+public class S00013 extends BaseActivity implements statusCallBack {
+
+
+	private ListView 		mListView;
+	private ImageButton 	mSearchBtn;
+	private ImageButton 	mWriteBtn;
+	private ImageButton		mAlramBtn;
+	private ImageButton 	mMoreBtn;
+	private ImageButton 	mReportBtn;
+	private ImageButton 	mReportCancelBtn;
+	private RelativeLayout  mSearchLayout;
+	private RadioButton		mRadioBtn0;
+	private RadioButton 	mRadioBtn1;
+	private RadioButton 	mRadioBtn2;
+	private RadioButton 	mRadioBtn3;
+	private RadioButton 	mRadioBtn4;
+	private RadioButton 	mRadioBtn5;
+	private RadioButton 	mRadioBtn6;
+	private RadioButton 	mRadioBtn7;
+	private RadioButton 	mRadioBtn8;
+	private RadioButton 	mRadioBtn9;
+	private RadioButton 	mRadioBtn10;
+	private RadioButton 	mRadioBtn11;
+	private RadioButton 	mSearchTypeRadioBtn1;
+	private RadioButton 	mSearchTypeRadioBtn2;
+
+	private RadioButton 	mReportRadio1;
+	private RadioButton 	mReportRadio2;
+	private RadioButton 	mReportRadio3;
+	private RadioButton 	mReportRadio4;
+	private RadioButton 	mReportRadio5;
+	private RadioButton 	mReportRadio6;
+	private RadioButton 	mReportRadio7;
+
+	private BadgeView		mAlramBadge;
+	private ImageButton 	mListSearchBtn;
+	private EditText		mSearchEdit;
+	private RelativeLayout  mMainReportLayout;
+
+	private S00013_ListAdapter	mListAdapter;
+
+	private ArrayList<MainListVO> mListItems;
+	private ArrayList<RadioButton> mRadioBtnArr;
+	private ArrayList<RadioButton> mRadioTypeBtnArr;
+	private ArrayList<RadioButton> mRadioReportArr;
+
+	private int mSelectPosition = 0;
+	private int mSelectKind = 0;
+	private int mSelectType = 0;
+	private String mSearchText = "";
+	private int mReportSeq;
+	private String mReportUserId;
+	private int mReportKind;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.s00013);
+
+		mRadioBtnArr = new ArrayList<RadioButton>();
+		mRadioTypeBtnArr = new ArrayList<RadioButton>();
+		mListItems = new ArrayList<MainListVO>();
+		mRadioReportArr = new ArrayList<RadioButton>();
+		//				for(int i = 0 ; i < 10 ; i ++) {
+		//					MainListVO item = new MainListVO();
+		//					item.setCategory("ddd");
+		//					item.setContents("내용ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddasl,gfjdsf;lgkjdflgkjdlfkgjdklfgjldkfjgkldfjgkldjfgkl");
+		//					item.setCreateTime("2014.10.3");
+		//					item.setName("원빈");
+		//		
+		//					mListItems.add(item);
+		//				}
+
+		mListView = (ListView) findViewById(R.id.listView1);
+		mMainReportLayout = (RelativeLayout) findViewById(R.id.main_report_layout);
+		mRadioBtn0 = (RadioButton) findViewById(R.id.radio_btn0);
+		mRadioBtn1 = (RadioButton) findViewById(R.id.radio_btn1);
+		mRadioBtn2 = (RadioButton) findViewById(R.id.radio_btn2);
+		mRadioBtn3 = (RadioButton) findViewById(R.id.radio_btn3);
+		mRadioBtn4 = (RadioButton) findViewById(R.id.radio_btn4);
+		mRadioBtn5 = (RadioButton) findViewById(R.id.radio_btn5);
+		mRadioBtn6 = (RadioButton) findViewById(R.id.radio_btn6);
+		mRadioBtn7 = (RadioButton) findViewById(R.id.radio_btn7);
+		mRadioBtn8 = (RadioButton) findViewById(R.id.radio_btn8);
+		mRadioBtn9 = (RadioButton) findViewById(R.id.radio_btn9);
+		mRadioBtn10 = (RadioButton) findViewById(R.id.radio_btn10);
+		mRadioBtn11 = (RadioButton) findViewById(R.id.radio_btn11);
+		mSearchBtn = (ImageButton) findViewById(R.id.title_search_btn);
+		mReportBtn = (ImageButton) findViewById(R.id.report_btn);
+		mReportCancelBtn = (ImageButton) findViewById(R.id.report_cancle_btn);
+		mSearchTypeRadioBtn1  = (RadioButton) findViewById(R.id.search_type_1_radio_btn);
+		mSearchTypeRadioBtn2 = (RadioButton) findViewById(R.id.search_type_2_radio_btn);
+		mWriteBtn = (ImageButton) findViewById(R.id.main_write_btn);
+		mAlramBtn = (ImageButton) findViewById(R.id.title_alram_btn);
+		mMoreBtn = (ImageButton) findViewById(R.id.title_more_btn);
+		mSearchLayout = (RelativeLayout) findViewById(R.id.main_search_layout);
+		mListSearchBtn = (ImageButton) findViewById(R.id.main_search_btn);
+		mSearchEdit  = (EditText) findViewById(R.id.main_search_edit);
+		mReportRadio1 = (RadioButton) findViewById(R.id.radioButton1);
+		mReportRadio2 = (RadioButton) findViewById(R.id.radioButton2);
+		mReportRadio3 = (RadioButton) findViewById(R.id.radioButton3);
+		mReportRadio4 = (RadioButton) findViewById(R.id.radioButton4);
+		mReportRadio5 = (RadioButton) findViewById(R.id.radioButton5);
+		mReportRadio6 = (RadioButton) findViewById(R.id.radioButton6);
+		mReportRadio7 = (RadioButton) findViewById(R.id.radioButton7);
+
+
+		mListAdapter = new S00013_ListAdapter(this, mListItems, this, myApp);
+
+		mRadioBtnArr.add(mRadioBtn0);
+		mRadioBtnArr.add(mRadioBtn1);
+		mRadioBtnArr.add(mRadioBtn2);
+		mRadioBtnArr.add(mRadioBtn3);
+		mRadioBtnArr.add(mRadioBtn4);
+		mRadioBtnArr.add(mRadioBtn5);
+		mRadioBtnArr.add(mRadioBtn6);
+		mRadioBtnArr.add(mRadioBtn7);
+		mRadioBtnArr.add(mRadioBtn8);
+		mRadioBtnArr.add(mRadioBtn9);
+		mRadioBtnArr.add(mRadioBtn10);
+		mRadioBtnArr.add(mRadioBtn11);
+
+		mRadioReportArr.add(mReportRadio1);
+		mRadioReportArr.add(mReportRadio2);
+		mRadioReportArr.add(mReportRadio3);
+		mRadioReportArr.add(mReportRadio4);
+		mRadioReportArr.add(mReportRadio5);
+		mRadioReportArr.add(mReportRadio6);
+		mRadioReportArr.add(mReportRadio7);
+
+		mRadioTypeBtnArr.add(mSearchTypeRadioBtn1);
+		mRadioTypeBtnArr.add(mSearchTypeRadioBtn2);
+
+
+		mListView.setAdapter(mListAdapter);
+
+		for(int i = 0 ; i < mRadioBtnArr.size() ; i++) {
+			mRadioBtnArr.get(i).setTag(i);
+		}
+
+		for(int i = 0 ; i < mRadioTypeBtnArr.size() ; i++) {
+			mRadioTypeBtnArr.get(i).setTag(i);
+		}
+
+		for(int i = 0 ; i < mRadioReportArr.size() ; i ++) {
+			mRadioReportArr.get(i).setTag(i);
+		}
+
+		for(int i = 0 ; i < mRadioTypeBtnArr.size() ; i++) {
+			mRadioTypeBtnArr.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if(isChecked) {
+						RadioButton btn = (RadioButton) buttonView;
+						int tag = (Integer) btn.getTag();
+						mSelectType = tag;
+						for(int i = 0 ; i < mRadioTypeBtnArr.size() ; i++) {
+							if(tag == i) continue;
+							else mRadioTypeBtnArr.get(i).setChecked(false);
+						}
+					}
+				}
+			});
+		}
+
+		for(int i = 0 ; i < mRadioReportArr.size() ; i++) {
+			mRadioReportArr.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if(isChecked) {
+						RadioButton btn = (RadioButton) buttonView;
+						int tag = (Integer) btn.getTag();
+						mReportKind = tag;
+						for(int i = 0 ; i < mRadioReportArr.size() ; i++) {
+							if(tag == i) continue;
+							else mRadioReportArr.get(i).setChecked(false);
+						}
+					}
+				}
+			});
+		}
+
+
+		for(int i = 0 ; i < mRadioBtnArr.size() ; i++) {
+			mRadioBtnArr.get(i).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if(isChecked) {
+						RadioButton btn = (RadioButton) buttonView;
+						int tag = (Integer) btn.getTag();
+						mSelectKind = tag;
+						for(int i = 0 ; i < mRadioBtnArr.size() ; i++) {
+							if(tag == i) continue;
+							else mRadioBtnArr.get(i).setChecked(false);
+						}
+					}
+				}
+			});
+		}
+
+		mListSearchBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String text = mSearchEdit.getText().toString();
+
+				requestBoardList(1,text);
+			}
+		});
+
+		//				mListView.setOnItemClickListener(new OnItemClickListener() {
+		//					@Override
+		//					public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		//						Intent intent = new Intent(SC002.this, SC002_detail.class);
+		//						intent.putExtra("seq", mListItems.get(arg2).getSeq());
+		//						startActivity(intent);
+		//					}
+		//				});
+
+		mWriteBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(S00013.this, SC004.class);
+				startActivityForResult(intent, 1111);
+			}
+		});
+
+		mSearchBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mSearchLayout.getVisibility() == View.GONE) {
+					mListView.setVisibility(View.GONE);
+					mMainReportLayout.setVisibility(View.GONE);
+				}
+				else {
+					mListView.setVisibility(View.VISIBLE);
+					mMainReportLayout.setVisibility(View.GONE);
+				}
+
+				mSearchLayout.setVisibility(mSearchLayout.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
+			}
+		});
+
+		mReportBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				requestBoardReport(mReportSeq, mReportUserId, mReportKind);
+			}
+		});
+
+		mMoreBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(S00013.this, SC014.class));
+			}
+		});
+
+		mReportCancelBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mMainReportLayout.setVisibility(View.GONE);
+				mSearchLayout.setVisibility(View.GONE);
+				mListView.setVisibility(View.VISIBLE);
+			}
+		});
+		requestTempList();
+		requestBoardList(1, mSearchText);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+
+			if(mListView.getVisibility()== View.GONE || mListView.getVisibility()==View.INVISIBLE) {
+				mMainReportLayout.setVisibility(View.GONE);
+				mSearchLayout.setVisibility(View.GONE);
+				mListView.setVisibility(View.VISIBLE);
+				return true;
+			}
+			else {
+//				finish();
+			}
+			//			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	/**
+	 * 메인리스트
+	 */
+	private void requestBoardList(int page, String searchText) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page+"");
+		params.put("kind", mSelectKind);
+		params.put("searchText", searchText);
+		params.put("searchTarget", mSelectType);
+		mSearchText = searchText;
+
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_LIST, params, JSONObject.class, this, "boardListCallBack");
+	}
+
+	public void boardListCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		JSONArray json;
+		if(!jsonObject.isNull("data")) {
+			json = jsonObject.getJSONArray("data");
+			mListItems.clear();
+
+			for(int i = 0; i < json.length() ; i ++) {
+				MainListVO mainVO = new MainListVO();
+
+				JSONObject item = json.getJSONObject(i);
+				Log.d("TAG", item.toString());
+				String photoName2 = item.getString("photoName2");
+				String photoName1 = item.getString("photoName1");
+				int sex = item.getInt("sex");
+				String photoName3 = item.getString("photoName3");
+				String photoName4 = item.getString("photoName4");
+				String tempName = item.getString("tempName");
+				String audioName = item.getString("audioName");
+				String movName = item.getString("movName");
+				String photoName5 = item.getString("photoName5");
+				String happyPhoto = item.getString("happyPhoto");
+				String birthDay = item.getString("birthDay");
+
+				String contents = item.getString("contents");
+				int likeCnt = item.getInt("likeCnt");
+				int replyCnt = item.getInt("replyCnt");
+				int memLvl = item.getInt("memLvl");
+				int unknown = item.getInt("unknown");
+				int seriousLevel = item.getInt("seriousLevel");
+				int seriousLevel2 = item.getInt("seriousLevel2");
+				int kind = item.getInt("kind");
+				String writeTime = item.getString("writeTime");
+				int repotCnt = item.getInt("reportCnt");
+				String userId = item.getString("userId");
+				int seq = item.getInt("seq");
+				String nickName = item.getString("nickName");
+
+				mainVO.setUserId(userId);
+				mainVO.setUnknown(unknown);
+				mainVO.setBirthDay(birthDay);
+				mainVO.setPhotoName1(photoName1);
+				mainVO.setPhotoName2(photoName2);
+				mainVO.setPhotoName3(photoName3);
+				mainVO.setPhotoName4(photoName4);
+				mainVO.setPhotoName5(photoName5);
+				mainVO.setAudioName(audioName);
+				mainVO.setMovName(movName);
+				mainVO.setSex(sex);
+				mainVO.setTempName(tempName);
+				mainVO.setHappyPhoto(happyPhoto);
+				mainVO.setSeq(seq);
+				mainVO.setMemLvl(memLvl);
+				mainVO.setCategory(kind+"");
+				mainVO.setContents(contents);
+				mainVO.setCreateTime(writeTime);
+				mainVO.setName(nickName);
+				mainVO.setSeriousLevel(seriousLevel);
+				mainVO.setSeriousLevel2(seriousLevel2);
+				mainVO.setLikeCnt(likeCnt);
+				mainVO.setReplyCnt(replyCnt);
+				mainVO.setRepotCnt(repotCnt);
+
+				mListItems.add(mainVO);
+			}
+			if(mSearchLayout.getVisibility()==View.VISIBLE) {
+				mSearchLayout.setVisibility(View.GONE);
+				mMainReportLayout.setVisibility(View.GONE);
+				mListView.setVisibility(View.VISIBLE);
+			}
+			mListAdapter.notifyDataSetChanged();
+		}
+		else {
+			BrUtilManager.getInstance().showToast(this, "데이터를 찾을수 없습니다.");
+		}
+
+	}
+
+	private void requestBoardLike(int seq, String userId) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("seq", seq+"");
+		params.put("userId", userId);
+		AQuery aquery = new AQuery(this);
+
+		//		CommonApi.excuteHttp(this, CommonApi.BOARD_LIKE, params, new httpCallBack() {
+		//			@Override
+		//			public void JsonCallback(JSONObject jsonObject, String api)
+		//					throws JSONException {
+		//				boolean result;
+		//				result = jsonObject.getBoolean("result");
+		//				if(result) {
+		//					Toast.makeText(SC002.this, jsonObject.getString("message"), 1).show();
+		//				}
+		//				else {
+		//					Toast.makeText(SC002.this, jsonObject.getString("message"), 1).show();
+		//				}
+		//			}
+		//		});
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_LIKE, params, JSONObject.class, this, "boardLikeCallBack");
+	}
+
+	public void boardLikeCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result;
+		result = jsonObject.getBoolean("result");
+		if(result) {
+			Toast.makeText(S00013.this, jsonObject.getString("message"), 1).show();
+			mListItems.get(mSelectPosition).setLikeCnt(mListItems.get(mSelectPosition).getLikeCnt() +1);
+			mListAdapter.notifyDataSetChanged();
+		}
+		else {
+			Toast.makeText(S00013.this, jsonObject.getString("message"), 1).show();
+		}
+	}
+
+
+	private void requestBoardDelete(int seq) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("seq", seq+"");
+
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_DELETE, params, JSONObject.class, this, "boardDeleteCallBack");
+	}
+
+	public void boardDeleteCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			BrUtilManager.getInstance().showToast(this, message);
+			requestBoardList(1,mSearchText);
+		}
+		else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+
+	private void requestBoardReport(int seq, String userId, int kind) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("seq", seq+"");
+		params.put("userId", userId);
+		params.put("kind", kind);
+
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_REPORT, params, JSONObject.class, this, "boardReportCallBack");
+	}
+
+	public void boardReportCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			BrUtilManager.getInstance().showToast(this, message);
+			mListItems.get(mSelectPosition).setRepotCnt(mListItems.get(mSelectPosition).getRepotCnt() +1);
+			mListAdapter.notifyDataSetChanged();
+			mReportKind = -1;
+			mReportUserId = "";
+			mReportSeq = -1;
+		}
+		else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+
+		mMainReportLayout.setVisibility(View.GONE);
+		mListView.setVisibility(View.VISIBLE);
+	}
+	
+	private void requestTempList() {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_TEMP_LIST, params, JSONObject.class, this, "tempListCallBack");
+
+
+	}
+	public void tempListCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+
+		if(!jsonObject.isNull("data")) {
+			
+			String temp = jsonObject.getString("data");
+			String[] tempArr;
+			tempArr = temp.split(",");
+		
+			for(int i = 0 ; i < tempArr.length ; i++) {
+				tempArr[i] = tempArr[i].replace("[", "");
+				tempArr[i] = tempArr[i].replace("]", "");
+				tempArr[i] = tempArr[i].replace("\"", "");
+				myApp.tempResource.add(tempArr[i]);
+			}
+			
+//			myApp.tempResource
+		}
+	}
+
+	@Override
+	public void callback(int type, int seq, String userId, int position) {
+		mSelectPosition = position;
+		if(type == 1) {
+			requestBoardLike(seq, userId);
+		}
+		else if(type == 2) {
+
+		}
+	}
+
+	@Override
+	public void deleteCallback(int seq) {
+		requestBoardDelete(seq);
+	}
+
+	@Override
+	public void reportCallback(final int seq, final String userId, final int kind, int position) {
+		mSelectPosition = position;
+		
+		BrUtilManager.getInstance().ShowDialog2btn(S00013.this, "알림", "정말 신고하시겠습니까?",  new dialogclick() {
+			
+			@Override
+			public void setondialogokclick() {
+				// TODO Auto-generated method stub
+				mMainReportLayout.setVisibility(View.VISIBLE);
+				mReportRadio1.setChecked(true);
+				mListView.setVisibility(View.GONE);
+				mReportSeq = seq;
+				mReportUserId = userId;
+			}
+			
+			@Override
+			public void setondialocancelkclick() {
+				// TODO Auto-generated method stub
+				return;
+			}
+		});
+		
+		
+//		AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
+//		alert_confirm.setMessage("정말 신고하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+//				new DialogInterface.OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				// 'YES'
+//				mMainReportLayout.setVisibility(View.VISIBLE);
+//				mReportRadio1.setChecked(true);
+//				mListView.setVisibility(View.GONE);
+//				mReportSeq = seq;
+//				mReportUserId = userId;
+//				//				requestBoardReport(seq, userId, kind);
+//			}
+//		}).setNegativeButton("취소",
+//				new DialogInterface.OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				// 'No'
+//				return;
+//			}
+//		});
+//		AlertDialog alert = alert_confirm.create();
+//		alert.show();
+
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if(requestCode == 1000) {
+			//데이터 갱신 필요할떄
+			if(resultCode == 1) {
+				requestBoardList(1, mSearchText);
+			}
+			//필요없음
+			else if(resultCode == 2) {
+			}
+		}
+		else if(requestCode == 1111) {
+//			boolean result = data.getBooleanExtra("yn", false);
+//			if(result) {
+			if(resultCode == 1)
+				requestBoardList(1, mSearchText);
+				
+//			}
+		}
+	}
+
+	@Override
+	public void updateCallback(int seq) {
+		Intent intent = new Intent(S00013.this, SC004.class);
+		intent.putExtra("seq", seq);
+		intent.putExtra("modify", true);
+		startActivityForResult(intent, 1111);
+	}
+
+}

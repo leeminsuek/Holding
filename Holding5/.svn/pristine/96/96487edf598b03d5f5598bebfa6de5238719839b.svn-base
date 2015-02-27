@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameLayout1"
+    android:layout_width="326dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:text="알림"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/backgrond" >
+        </View>
+
+        <TextView
+            android:id="@+id/megabox_dialog_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/backgrond" >
+        </View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/megabox_dialog_cancel_button"
+                android:layout_width="1px"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/clear"
+                android:text="취소"
+                 />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="1px"
+                android:layout_height="50dp"
+                android:background="@color/backgrond" />
+
+            <Button
+                android:id="@+id/megabox_dialog_confirm_button"
+                android:layout_width="1px"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/clear"
+                android:text="확인"
+                 />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

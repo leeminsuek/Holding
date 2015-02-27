@@ -1,0 +1,229 @@
+package com.br.holding5.sc014;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.br.holding5.Global;
+import com.br.holding5.WriteFileLog;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.util.HttpUtil;
+import com.br.holding5.util.HttpUtil.OnAfterParsedData;
+import com.brainyx.holding5.R;
+import com.brainyxlib.image.BrImageUtilManager;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+
+public class S00125 extends BaseActivity{
+	
+	GridView gridview;
+	private int mPage = 1;
+	ArrayList<HappyVo>arraylist = new ArrayList<HappyVo>();
+	ImageAdapter imgadapter;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		try {
+			super.onCreate(savedInstanceState);
+			
+			setContentView(R.layout.s00125);
+			
+			init();
+			getdata();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	
+	}
+	
+	private void init(){
+		try {
+
+			findViewById(R.id.header_back_button).setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+			
+			gridview = (GridView)findViewById(R.id.gridview);
+			imgadapter = new ImageAdapter(this);
+			gridview.setAdapter(imgadapter);
+			
+			gridview.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					Intent intent  =  new Intent(S00125.this,SC01119.class);
+					SC01119.setSeq(arraylist.get(position));
+					startActivity(intent);
+					
+				}
+			});
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+	
+	private void SetView(){
+		try {
+			imgadapter.notifyDataSetChanged();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+	private void getdata(){
+		try {
+			
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put(HttpUtil.KEY_URL, Global.URL_HAPPYMEMBER);
+			params.put("page", mPage);
+			//params.put("파일key", new File("파일경로"));
+			HttpUtil.getInstance().requestHttp(this, params,new OnAfterParsedData() {
+						@Override
+						public void onResult(boolean result, String resultData) {
+							try {
+								if(result){ /// 종료하면 여기로 탑니다
+									arraylist = HappyVo.PasingJson(resultData, arraylist);
+									Log.e("", "");
+								}else{}	
+							} catch (Exception e) {
+							}finally{ /// 끝나면 핸들러로 화면셋팅
+								mActionHandler.sendEmptyMessage(1);
+							}
+						}
+					});
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+	
+	
+	private class ImageAdapter extends BaseAdapter {
+		private Context mContext;
+		private SparseArray<WeakReference<View>> viewArray;
+		private LayoutInflater mLiInflater;
+		public ImageAdapter(Context c) {
+			mContext = c;
+			 this.viewArray = new SparseArray<WeakReference<View>>(arraylist.size());
+			 mLiInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return arraylist.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return arraylist.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			
+			  if(viewArray != null && viewArray.get(position) != null) {
+				  convertView = viewArray.get(position).get();
+				  if(convertView != null){
+						return convertView;
+				  }
+			  }
+			try {
+				  convertView = mLiInflater.inflate(R.layout.s00125_cell, parent, false);
+				  final ImageView ivImage = (ImageView )convertView.findViewById(R.id.ivImage);
+				  ImageView imgframe = (ImageView)convertView.findViewById(R.id.imgframe);
+				  TextView name = (TextView) convertView.findViewById(R.id.name);
+				  LinearLayout image_selected = (LinearLayout)convertView.findViewById(R.id.llImageCellBg);
+					myApp.imageloder.displayImage(Global.host + arraylist.get(position).getHappyPhoto(),
+							ivImage, myApp.options, new ImageLoadingListener() {
+								
+								@Override
+								public void onLoadingStarted(String arg0, View arg1) {
+								}
+								
+								@Override
+								public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+								}
+								
+								@Override
+								public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+									int rotate = BrImageUtilManager.getInstance().GetExifOrientation(arg0);
+									ivImage.setImageBitmap(BrImageUtilManager.getInstance().rotate(arg2,rotate));
+								}
+								
+								@Override
+								public void onLoadingCancelled(String arg0, View arg1) {
+								}
+							});
+					name.setText(arraylist.get(position).getName());
+					imgframe.setBackgroundResource(getFrame(arraylist.get(position).getMemLvl()));
+					
+					setProgressBarIndeterminateVisibility(false);
+					ivImage.setTag(position);
+					 convertView.setTag(image_selected);	
+			} catch (Exception e) {
+				
+				setProgressBarIndeterminateVisibility(false);
+				WriteFileLog.writeException(e);
+				// TODO: handle exception
+			}finally{
+				 viewArray.put(position, new WeakReference<View>(convertView));
+			}
+			
+			return convertView;
+		}
+		
+		
+		public int getFrame(int lv){
+			switch(lv){
+			case 2 :
+				return R.drawable.happy_prf_bg_01;
+			case 3:
+				return R.drawable.happy_prf_bg_02;
+			case 4:
+				return R.drawable.happy_prf_bg_03;
+			}
+			
+			return 0;
+		}
+	}
+	
+	public Handler mActionHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				SetView();
+				break;
+			}
+		}
+	};
+	
+
+}

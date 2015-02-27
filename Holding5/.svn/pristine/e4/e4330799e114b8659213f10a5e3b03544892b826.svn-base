@@ -1,0 +1,492 @@
+package com.br.holding5.sc116;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.br.holding5.Global;
+import com.br.holding5.WriteFileLog;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.s00114.S00114;
+import com.br.holding5.sc003.S00113;
+import com.br.holding5.util.HttpUtil;
+import com.br.holding5.util.HttpUtil.OnAfterParsedData2;
+import com.brainyx.holding5.R;
+
+public class S00116 extends BaseActivity implements OnItemClickListener {
+
+	// TODO 공통 부분으로 이동 ...
+//	static final String SERVER_URL = "http://brainyx711.iptime.org:6385/";
+	
+	String mUserId = null;
+	ArrayList<AlarmVO> mAlarmList = null;
+	
+	JSONObject tmpJson;
+	boolean tmpResult;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.s00116);
+
+		// TODO 사용자ID 를 설정해야함
+		// TEST
+		mUserId = myApp.getUserInfo().getUserId();
+		
+		initView();
+	}
+	
+	protected void initView() {
+		
+		// 헤더 폰트 설정
+//		TextView headerTitle = (TextView)findViewById(R.id.header_title);
+//		headerTitle.setTypeface(myApp.getFontBold());
+//		float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
+//		headerTitle.setTextSize(TypedValue.COMPLEX_UNIT_PT, 27/scaledDensity);
+		
+		try {
+			ImageView headerBackButton = (ImageView)findViewById(R.id.header_back_button);
+			headerBackButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.i("TEST", "Back Button Clicked");
+					
+					// TODO 백버튼 클릭시 할일 설정
+					finish();
+				}
+			});
+			
+			// 데이타 로딩전 보여줄 화면
+			TextView emptyView = (TextView)findViewById(R.id.empty_text);
+			emptyView.setVisibility(View.VISIBLE);
+
+			//setTestData();
+			loadData();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		// 헤더 백버튼 설정
+		
+	}
+	
+	protected void setView() {
+		try {
+			// emptyView를 안보이게
+			TextView emptyView = (TextView)findViewById(R.id.empty_text);
+			emptyView.setVisibility(View.GONE);
+
+			ListView listView = (ListView)findViewById(R.id.listView1);
+			listView.setDivider(null);
+			CustomListAdapter listAdapter = new CustomListAdapter(this, mAlarmList);
+			listView.setAdapter(listAdapter);
+			listView.setOnItemClickListener(this);
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	protected void loadData() {
+		
+		mAlarmList = new ArrayList<AlarmVO>();
+				
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put(HttpUtil.KEY_URL, Global.host + "alarmcenter/list");
+			params.put("userId", mUserId);
+			HttpUtil.getInstance().requestHttp2(this, params, new OnAfterParsedData2() {
+
+						@Override
+						public void onResult2(JSONObject jsonObject)
+								throws JSONException {
+							Log.i("TEST", "result: " + " data: " + jsonObject);
+							
+							//setDataFromJson(jsonObject);
+							tmpResult = getResultFromJson(jsonObject);
+							tmpJson = jsonObject;
+
+						}
+
+						@Override
+						public void onResult3() {
+							Log.i("TEST", "result3");
+							
+							if (tmpResult) {
+								// 알림 가져오기 성공
+								setDataFromJson(tmpJson);
+							}
+							else {
+								// 알림 가져오기 실패
+								showAlertDialog(getMessageFromJson(tmpJson));
+							}
+
+						}
+					});
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	private void setDataFromJson(JSONObject jsonObject) {
+		
+		try {
+			JSONArray jsonArr = jsonObject.getJSONArray("data");
+			
+			for (int i = 0; i < jsonArr.length(); i++) {
+				JSONObject json = jsonArr.getJSONObject(i);
+				
+				AlarmVO alarm = new AlarmVO();
+				alarm.setAlarmSeq(json.getInt("alarmSeq"));
+				alarm.setMsgType(json.getInt("msgType"));
+				alarm.setContentsNo(json.getInt("contentsNo"));
+				alarm.setSendTime(json.getLong("sendTime"));
+				alarm.setSign1(json.getString("sign1"));
+				alarm.setSign2(json.getString("sign2"));
+				alarm.setAlarmRead(json.getString("alarmRead"));
+				alarm.setSenderFlag(json.getBoolean("senderFlag"));
+				mAlarmList.add(alarm);
+			}
+			
+		} catch (JSONException e) {
+			WriteFileLog.writeException(e);
+		}
+		
+		Log.i("TEST", "size "+mAlarmList.size());
+		
+		if (mAlarmList.size() != 0) {
+			setView();
+		}
+		
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+
+		Log.i("TEST", "onItemClick pos: " + position);
+		
+//		mAlarmList.get(position).setAlarmRead("Y");
+//		LinearLayout background = (LinearLayout)view.findViewById(R.id.background);
+//		background.setBackgroundResource(R.drawable.notice_new_list_bg2);
+
+		// 알림 읽음 처리
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put(HttpUtil.KEY_URL, Global.host + "alarmcenter/update");
+			params.put("seq", mAlarmList.get(position).getAlarmSeq());
+			HttpUtil.getInstance().requestHttp2(this, params, new OnAfterParsedData2() {
+
+				@Override
+				public void onResult2(JSONObject jsonObject) throws JSONException {
+					Log.i("TEST", "result: " + " data: " + jsonObject);
+
+					tmpResult = getResultFromJson(jsonObject);
+					tmpJson = jsonObject;
+
+				}
+
+				@Override
+				public void onResult3() {
+					Log.i("TEST", "result3");
+
+					if (tmpResult) {
+						// 알림 읽음 처리 성공
+						
+						// 화면에 읽음 처리
+						mAlarmList.get(position).setAlarmRead("Y");
+						LinearLayout background = (LinearLayout)view.findViewById(R.id.background);
+						background.setBackgroundResource(R.drawable.notice_new_list_bg2);
+						
+						// 액티비티 이동
+						goActivity(position);
+					}
+					else {
+						// 알림 읽음 처리 실패
+						showAlertDialog(getMessageFromJson(tmpJson));
+					}{
+					}
+				}
+			});
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	private boolean getResultFromJson(JSONObject jsonObject) {
+		
+		boolean result = false;
+		
+		try {
+			result = jsonObject.getBoolean("result");
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return result;
+		}
+
+		return result;
+	}
+	
+	private String getMessageFromJson(JSONObject jsonObject) {
+		
+		String result = "";
+
+		try {
+			result = jsonObject.getString("message");
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return result;
+		}
+
+		return result;
+	}
+	
+	private void goActivity(int position) {
+		
+		Intent intent;
+		
+		// TODO 해당 화면 만든 후 주석 제거
+		
+		// 해당 화면으로 이동
+		if (mAlarmList.get(position).getMsgType() >= 1 && mAlarmList.get(position).getMsgType() <= 8) {
+			// 우체통 상세화면
+			Toast.makeText(this, "우체통 상세화면 으로 이동 테스트 MSG_TYPE 1~8", Toast.LENGTH_SHORT).show();
+//			intent = new Intent(S00116.this, S01116.class);
+//			intent.putExtra("ALARM_TYPE", mAlarmList.get(position).getMsgType());
+//			intent.putExtra("MSG_NO", mAlarmList.get(position).getAlarmSeq());
+//			startActivity(intent);
+		}
+		else if (mAlarmList.get(position).getMsgType() == 9) {
+			
+			if (!mAlarmList.get(position).isSenderFlag()) {
+				// 희망메시지 수신자 일 경우 우체통
+				Toast.makeText(this, "우체통 상세화면 으로 이동 테스트 MSG_TYPE 9", Toast.LENGTH_SHORT).show();
+//				intent = new Intent(S00116.this, S01116.class);
+//				intent.putExtra("ALARM_TYPE", mAlarmList.get(position).getMsgType());
+//				intent.putExtra("MSG_NO", mAlarmList.get(position).getAlarmSeq());
+//				startActivity(intent);
+			}
+			else {
+				// 희망메시지 발신자 일 경우 본문글
+				Toast.makeText(this, "본문글 으로 이동 테스트 MSG_TYPE 9", Toast.LENGTH_SHORT).show();
+				intent = new Intent(S00116.this, S00113.class);
+				intent.putExtra("seq", mAlarmList.get(position).getAlarmSeq());
+				startActivity(intent);
+			}
+		}
+		else if (mAlarmList.get(position).getMsgType() >= 10 && mAlarmList.get(position).getMsgType() <= 14) {
+			// 본문글 상세화면
+			Toast.makeText(this, "본문글 상세화면 으로 이동 테스트 MSG_TYPE 10~14", Toast.LENGTH_SHORT).show();
+			intent = new Intent(S00116.this, S00113.class);
+			intent.putExtra("seq", mAlarmList.get(position).getAlarmSeq());
+			startActivity(intent);
+		}
+		else if (mAlarmList.get(position).getMsgType() == 16) {
+			// 공지사항 상세화면
+			Toast.makeText(this, "공지사항 상세화면 으로 이동 테스트 MSG_TYPE 16", Toast.LENGTH_SHORT).show();
+			intent = new Intent(S00116.this, S00114.class);
+			intent.putExtra("seq", mAlarmList.get(position).getAlarmSeq());
+			startActivity(intent);
+		}
+		
+	}
+	
+	private void showAlertDialog(String message) {
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(message);
+		builder.setPositiveButton("확인", null);
+		
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+	
+	public class CustomListAdapter extends BaseAdapter {
+
+		Context context;
+		ArrayList<AlarmVO> alarmList;
+		Date curDate;
+		
+		float scaledDensity;
+
+		
+		public CustomListAdapter(Context context, ArrayList<AlarmVO> alarmList) {
+			this.context = context;
+			this.alarmList = alarmList;
+			this.curDate = new Date();
+			
+			scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+		}
+		
+		@Override
+		public int getCount() {
+			return alarmList.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return alarmList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder vh = null;
+			
+			try {
+				if (convertView == null) {
+					convertView = View.inflate(context, R.layout.s00116_list_item, null);
+					vh = new ViewHolder();
+					vh.background = (LinearLayout)convertView.findViewById(R.id.background);
+					vh.titleTV = (TextView)convertView.findViewById(R.id.title_text);
+					vh.contentTV = (TextView)convertView.findViewById(R.id.content_text);
+					vh.timeTV = (TextView)convertView.findViewById(R.id.time_text);
+					
+					vh.titleTV.setTypeface(myApp.getFontNormal());
+					vh.titleTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 21/scaledDensity);
+					vh.contentTV.setTypeface(myApp.getFontNormal());
+					vh.contentTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 18/scaledDensity);
+					vh.timeTV.setTypeface(myApp.getFontNormal());
+					vh.timeTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 17/scaledDensity);
+
+					convertView.setTag(vh);
+				}
+				else {
+					vh = (ViewHolder)convertView.getTag();
+				}
+				
+				if (alarmList.get(position).getAlarmRead().equals("Y")) {
+					vh.background.setBackgroundResource(R.drawable.notice_new_list_bg2);
+				}
+				else {
+					vh.background.setBackgroundResource(R.drawable.notice_list_bg2);
+
+				}
+				
+				vh.titleTV.setText(alarmList.get(position).getSign1());
+				
+				if (alarmList.get(position).getSign2() == null || 
+					alarmList.get(position).getSign2().length() == 0) {
+					vh.contentTV.setVisibility(View.GONE);
+				}
+				else {
+					vh.contentTV.setVisibility(View.VISIBLE);
+					vh.contentTV.setText(alarmList.get(position).getSign2());	
+				}
+				
+				String timeStr = "";
+				long diffTime = (curDate.getTime() / 1000) - mAlarmList.get(position).getSendTime();
+				if (diffTime < 60) {
+					timeStr = "방금전";
+				}
+				else if (diffTime < 60 * 60) {
+					timeStr = String.valueOf(diffTime/60) + "분전";
+				}
+				else if (diffTime < 60 * 60 * 24) {
+					timeStr = String.valueOf(diffTime/60/60) + "시간전";
+				}
+				else if (diffTime < 60 * 60 * 24 * 30) {
+					timeStr = String.valueOf(diffTime/60/60/24) + "일전";
+				}
+				else if (diffTime < 60 * 60 * 24 * 30 * 12) {
+					timeStr = String.valueOf(diffTime/60/60/24/30) + "달전";
+				}
+				else {
+					timeStr = "오래전";
+				}
+				vh.timeTV.setText(timeStr);
+			} catch (Exception e) {
+				WriteFileLog.writeException(e);
+			}
+			
+			
+			return convertView;
+		}
+		
+		class ViewHolder{
+			public LinearLayout background;
+	        public TextView titleTV;
+	        public TextView contentTV;
+	        public TextView timeTV;	         
+	    }
+
+	}
+	
+	
+	
+	
+//	void setTestData() {
+//		mAlarmList = new ArrayList<AlarmVO>();
+//		AlarmVO alarm = new AlarmVO();
+//		alarm.setMsgType(1);
+//		alarm.sendTime = new Date(System.currentTimeMillis() - 1000);
+//		alarm.sign1 = "작성하신 글에 댓글이 달렸습니다";
+//		alarm.sign2 = "힘드시겠어요 그러나 자신감을 잃지는 마세요.\n이겨낼수 있답니다...";
+//		mAlarmList.add(alarm);
+//		
+//		alarm = new AlarmVO();
+//		alarm.setMsgType(2);
+//		alarm.sendTime = new Date(System.currentTimeMillis() - 61 * 1000);
+//		alarm.sign1 = "작성하신 글이 신고를 당했습니다.";
+//		alarm.sign2 = "";
+//		mAlarmList.add(alarm);
+//		
+//		alarm = new AlarmVO();
+//		alarm.msgType = 3;
+//		alarm.sendTime = new Date(System.currentTimeMillis() - 60 * 61 * 1000);
+//		alarm.sign1 = "작성하신 글에 하나로님꼐서 힘내요 추천을 하였습니다.";
+//		alarm.sign2 = "";
+//		mAlarmList.add(alarm);
+//		
+//		alarm = new AlarmVO();
+//		alarm.msgType = 4;
+//		alarm.sendTime = new Date(System.currentTimeMillis() - 60 * 61 * 1000);
+//		alarm.sign1 = "작성하신 글에 댓글이 달렸습니다.";
+//		alarm.sign2 = "신고하세요.신고하셔서 적극적으로 대처해야 해요.";
+//		mAlarmList.add(alarm);
+//		
+//		alarm = new AlarmVO();
+//		alarm.msgType = 5;
+//		alarm.sendTime = new Date(System.currentTimeMillis() - 60 * 61 * 1000);
+//		alarm.sign1 = "가입을 축하 드립니다.";
+//		alarm.sign2 = "해피인(태연)님에게서 가입축하 메세지가 도착했습니다.";
+//		mAlarmList.add(alarm);
+//		
+//		alarm = new AlarmVO();
+//		alarm.msgType = 6;
+//		alarm.sendTime = new Date(System.currentTimeMillis() - 60 * 61 * 1000);
+//		alarm.sign1 = "가입을 축하 드립니다.";
+//		alarm.sign2 = "해피인(공유)님에게서 가입축하 메세지가 도착했습니다.";
+//		mAlarmList.add(alarm);
+//		
+//	}
+
+}

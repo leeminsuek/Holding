@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/content_box_bg">
+
+    <FrameLayout
+        android:id="@+id/imageView1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/dimen10dp"
+        android:layout_marginTop="@dimen/dimen15dp"
+        android:background="@drawable/prf_box_bg" >
+
+        <ImageView
+            android:id="@+id/prof_img"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="match_parent"
+            android:background="@drawable/prf_img_01_m" />
+
+        <ImageView
+            android:id="@+id/prof_mask_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/prf_box_bg" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/reply_item_name_txt"
+        style="@style/detail_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_marginLeft="@dimen/dimen15dp"
+        android:layout_toRightOf="@+id/imageView1"
+        android:text="원빈" />
+
+    <TextView
+        android:id="@+id/reply_item_time_txt"
+        style="@style/list_create_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/reply_item_name_txt"
+        android:layout_alignBottom="@+id/reply_item_name_txt"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimen15dp"
+        android:text="10분전" />
+
+    <TextView
+        android:id="@+id/reply_item_content_txt"
+        style="@style/list_contents_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/reply_item_name_txt"
+        android:layout_below="@+id/reply_item_name_txt"
+        android:layout_marginBottom="@dimen/dimen15dp"
+        android:layout_marginTop="@dimen/dimen15dp"
+        android:text="asdasd" />
+
+    <LinearLayout
+        android:id="@+id/reply_media_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reply_item_content_txt"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen10dp" >
+
+        <RelativeLayout
+            android:id="@+id/reply_audio_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen15dp">
+
+            <!-- <TextView -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="30dp" -->
+            <!-- android:background="@drawable/input_box_bg" -->
+            <!-- android:text="준비된 녹음이 있습니다." /> -->
+
+
+            <!-- <ImageButton -->
+            <!-- android:id="@+id/reply_audio_play_btn" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_alignParentRight="true" -->
+            <!-- android:layout_centerVertical="true" -->
+            <!-- android:layout_marginRight="@dimen/dimen10dp" -->
+            <!-- android:background="@color/clear" -->
+            <!-- android:src="@drawable/selector_rcd_play_btn" /> -->
+
+            <TextView
+                android:id="@+id/reply_audio_play_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:background="@drawable/rcd_contents_bg"
+                android:clickable="true"
+                android:drawableRight="@drawable/rcd_play_btn"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:text="준비된 녹음이 있습니다."
+                android:textColor="#979899"
+                android:textSize="@dimen/dimen19pt"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <com.br.holding5.ms.ResizeImageView
+            android:id="@+id/reply_item_photo_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" >
+        </com.br.holding5.ms.ResizeImageView>
+
+        <RelativeLayout
+            android:id="@+id/reply_video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/reply_item_video_play_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="@dimen/dimen25dp"
+                android:background="@drawable/rcd_contents_bg"
+                android:clickable="true"
+                android:drawablePadding="4dp"
+                android:drawableRight="@drawable/rcd_play_btn"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:text="준비된 영상이 있습니다."
+                android:textColor="#979899"
+                android:textSize="@dimen/dimen19pt"
+                android:visibility="visible" />
+            <!-- <com.br.holding5.ms.ResizeImageView -->
+            <!-- android:id="@+id/reply_item_video_img" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_alignParentLeft="true" -->
+            <!-- android:layout_alignParentRight="true" -->
+            <!-- android:src="@drawable/main_logo_img" > -->
+
+
+            <!-- </com.br.holding5.ms.ResizeImageView> -->
+
+
+            <!-- <ImageButton -->
+            <!-- android:id="@+id/reply_item_video_play_btn" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_centerInParent="true" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:background="@color/clear" -->
+            <!-- android:src="@drawable/s00116_back_button" /> -->
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/reply_media_content_layout" >
+
+        <ImageButton
+            android:id="@+id/ico_good_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen5dp"
+            android:layout_toLeftOf="@+id/good_txt"
+            android:background="@color/clear"
+            android:src="@drawable/ico_s_thumb" />
+
+        <TextView
+            android:id="@+id/ico_speaker_txt"
+            style="@style/list_stastuc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/speaker_txt"
+            style="@style/list_stastuc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/dimen5dp"
+            android:layout_toLeftOf="@+id/ico_speaker_txt"
+            android:gravity="center_vertical"
+            android:text="신고" />
+
+        <ImageButton
+            android:id="@+id/ico_speaker_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ico_good_btn"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginRight="@dimen/dimen5dp"
+            android:layout_toLeftOf="@+id/speaker_txt"
+            android:background="@color/clear"
+            android:src="@drawable/ico_speaker" />
+
+        <TextView
+            android:id="@+id/ico_good_txt"
+            style="@style/list_stastuc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/ico_speaker_btn"
+            android:gravity="center_vertical"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/good_txt"
+            style="@style/list_stastuc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/dimen5dp"
+            android:layout_toLeftOf="@+id/ico_good_txt"
+            android:gravity="center_vertical"
+            android:text="좋아요" />
+
+        <ImageButton
+            android:id="@+id/ico_s_menu_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:layout_marginRight="@dimen/dimen5dp"
+            android:background="@color/clear"
+            android:src="@drawable/ico_s_menu" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ico_group_line" >
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ico_s_menu_btn"
+            android:background="@drawable/ico_group_line" >
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/good_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ico_good_btn"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/ico_speaker_btn"
+            android:background="@color/clear"
+            android:text="" />
+
+        <Button
+            android:id="@+id/repot_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ico_speaker_btn"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/clear"
+            android:text="" />
+    </RelativeLayout>
+
+</RelativeLayout>

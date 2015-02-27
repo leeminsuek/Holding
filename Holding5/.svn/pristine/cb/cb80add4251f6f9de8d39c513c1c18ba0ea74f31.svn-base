@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/status_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrond"
+    android:layout_marginTop="@dimen/dimen15dp" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@drawable/ico_group_line" />
+
+    <RadioGroup
+        android:id="@+id/reply_choice_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/add_menu_bg"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/search_type_1_radio_btn"
+            style="@style/search_radio_text"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimen5dp"
+            android:layout_marginLeft="@dimen/dimen15dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:layout_weight="1"
+            android:button="@drawable/selector_main_search_check"
+            android:checked="true"
+            android:gravity="center_vertical"
+            android:text="댓글 순서대로 보기" />
+
+        <RadioButton
+            android:id="@+id/search_type_2_radio_btn"
+            style="@style/search_radio_text"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimen5dp"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:layout_weight="1"
+            android:button="@drawable/selector_main_search_check"
+            android:gravity="center_vertical"
+            android:text="최근에 등록된 댓글 보기" />
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/reply_list"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_above="@+id/input_edit_layout"
+        android:layout_below="@+id/reply_choice_layout" >
+
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/add_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp" >
+
+        <CheckBox
+            android:id="@+id/unknown_check"
+            style="@style/search_radio_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen50dp"
+            android:button="@drawable/selector_main_search_check"
+            android:text="익명" />
+
+        <ImageButton
+            android:id="@+id/reply_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen50dp"
+            android:background="@color/clear"
+            android:src="@drawable/selector_register_btn" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addbtn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_layout"
+        android:layout_alignParentLeft="true" >
+
+        <ImageButton
+            android:id="@+id/add_video_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/clear"
+            android:src="@drawable/selector_add_menu4" />
+
+        <ImageButton
+            android:id="@+id/add_audio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/add_video_btn"
+            android:background="@color/clear"
+            android:src="@drawable/selector_add_menu3" />
+
+        <ImageButton
+            android:id="@+id/add_picture_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/add_audio_btn"
+            android:background="@color/clear"
+            android:src="@drawable/selector_add_menu2" />
+
+        <ImageButton
+            android:id="@+id/crop_add_picture_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/add_picture_btn"
+            android:background="@color/clear"
+            android:src="@drawable/selector_add_menu1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/ico_group_line" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/input_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addbtn_layout"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/reply_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen10dp"
+            android:background="@drawable/write_input_blue_bg"
+            android:padding="@dimen/dimen5dp" />
+
+        <com.br.holding5.sc003.gallery.DeleteImageView
+            android:id="@+id/reply_photo_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" >
+        </com.br.holding5.sc003.gallery.DeleteImageView>
+    </LinearLayout>
+<LinearLayout
+        android:id="@+id/linearLayout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llImageCellBg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:background="@drawable/help_photo_bg"
+        android:padding="10dip" >
+
+        <RelativeLayout
+            android:id="@+id/imglayout"
+            android:layout_width="match_parent"
+            android:layout_height="85dip" >
+
+           
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:scaleType="fitXY"
+                android:src="@null"
+                android:visibility="visible" />
+            
+             <ImageView
+                android:id="@+id/imgframe"
+                android:layout_width="match_parent"
+                android:background="@drawable/happy_prf_bg_01"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            android:layout_below="@id/imglayout"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

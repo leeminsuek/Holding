@@ -1,0 +1,88 @@
+package com.br.holding5.sc001;
+
+import com.brainyx.holding5.R;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.text.Html;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class OtherLoginDialog extends Dialog implements View.OnClickListener {
+	
+	public final String TAG = "Duks";
+	
+	static final float DIMENSIONS_DIFF_PORTRAIT = 30;
+
+	private Context mContext;
+	private String mName;
+	private OtherLoginDialogListener mListener;
+	
+	public OtherLoginDialog(Context context, OtherLoginDialogListener listener) {
+        super(context);
+        mContext = context;
+        mListener = listener;
+    }
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));	
+		
+		this.setCanceledOnTouchOutside(false);
+		
+		LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = null;
+		v = vi.inflate(R.layout.s00002_otherlogin_dialog, null);
+		
+		ImageView iv_close = (ImageView)v.findViewById(R.id.iv_close);
+		iv_close.setOnClickListener(this);
+		
+		v.findViewById(R.id.btn_ok).setOnClickListener(this);
+		v.findViewById(R.id.btn_cancel).setOnClickListener(this);
+		
+		Display display = getWindow().getWindowManager().getDefaultDisplay();
+		final float scale = getContext().getResources().getDisplayMetrics().density;
+		float dimensions = DIMENSIONS_DIFF_PORTRAIT;
+
+		addContentView(v, new LinearLayout.LayoutParams(
+				display.getWidth() - ((int) (dimensions * scale + 0.5f)),
+				LinearLayout.LayoutParams.WRAP_CONTENT));
+        
+	}
+    
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		
+		switch(v.getId())
+		{
+			case R.id.iv_close:
+				dismiss();
+				break;
+			case R.id.btn_ok:
+				{
+					if (mListener != null)
+						mListener.onOK();
+					dismiss();
+				}
+				break;
+		}
+		
+	}
+}

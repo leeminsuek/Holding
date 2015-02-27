@@ -1,0 +1,392 @@
+package com.br.holding5.sc010;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.br.holding5.Global;
+import com.br.holding5.WriteFileLog;
+import com.brainyx.holding5.R;
+import com.brainyxlib.image.BrImageUtilManager;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+
+public class SC010Adapter extends BaseAdapter {
+
+	private ArrayList<Map<String, Object>> arrList;
+	private LayoutInflater li;
+	private ImageLoader loader;
+	private DisplayImageOptions option;
+	private Resources res;
+	
+	interface ISC010OnClick {
+		void onItemClick(int pos);
+	}
+	
+	private ISC010OnClick onItemClickListener; 
+	
+	public SC010Adapter() {
+		// TODO Auto-generated constructor stub
+		
+	}
+	
+	public SC010Adapter(Context ctx, ArrayList<Map<String, Object>> arrList, ImageLoader loader, DisplayImageOptions option)	{
+		li = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.arrList = arrList;
+		this.loader = loader;
+		this.option = option;
+		res = ctx.getResources();
+	}
+	
+	
+	public void setOnItemClickListener(ISC010OnClick itemClick)
+	{
+		onItemClickListener = itemClick;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		if(arrList == null)
+			return 0;
+		
+		return arrList.size();
+	}
+
+	@Override
+	public Object getItem(int pos) {
+		return arrList.get(pos);
+	}
+
+	@Override
+	public long getItemId(int pos) {
+		return pos;
+	}
+
+	@Override
+	public View getView(int pos, View v, ViewGroup arg2) {
+		// TODO Auto-generated method stub
+		try {
+			if(v == null)
+			{
+				v = li.inflate(R.layout.s00120_list_item, null);
+				v.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// row click event.
+						final int POS = Integer.valueOf(v.getTag() + "");
+						onItemClickListener.onItemClick(POS);
+					}
+				});
+				
+				// set Tag
+				v.setTag(R.id.rl_s00120_item_bg,	 	 v.findViewById(R.id.rl_s00120_item_bg));
+				v.setTag(R.id.rl_s00120_item_bg_right, 	 v.findViewById(R.id.rl_s00120_item_bg_right));
+				v.setTag(R.id.iv_s00120_item_profile, 	 v.findViewById(R.id.iv_s00120_item_profile));
+				v.setTag(R.id.tv_s00120_item_nick_name,  v.findViewById(R.id.tv_s00120_item_nick_name));
+				v.setTag(R.id.tv_s00120_item_msg_type, 	 v.findViewById(R.id.tv_s00120_item_msg_type));
+				v.setTag(R.id.tv_s00120_item_write_time, v.findViewById(R.id.tv_s00120_item_write_time));
+				v.setTag(R.id.tv_s00120_item_contents, 	 v.findViewById(R.id.tv_s00120_item_contents));
+				
+			}
+			
+			v.setTag(pos);
+			
+			final int POS = Integer.valueOf(v.getTag() + "");
+			final Map<String, Object> ITEM = arrList.get(POS);
+			
+			if(ITEM == null)
+			{
+				// TODO :: set Error state.
+				
+			}
+			else
+			{
+				
+				// request image.
+				final ImageView ivProfile = (ImageView)v.getTag(R.id.iv_s00120_item_profile);
+				
+				
+				final String level = ITEM.get("mem_lvl").toString();
+				final int sex = Integer.valueOf(ITEM.get("sex").toString());	//1=m, 2=g
+				final int birthY = Integer.valueOf(ITEM.get("yearY").toString());
+				int lvl = Integer.valueOf(level);
+				Log.d("SC010Adapter", "level = " + level);
+				Log.d("SC010Adapter", "sex = " + sex);
+				Log.d("SC010Adapter", "birthY = " + birthY);
+				Log.d("SC010Adapter", "lvl = " + lvl);
+				if(lvl == 1){
+					
+					SimpleDateFormat df = new SimpleDateFormat("yyyy");
+					Date currentDate = new Date();
+					String resetDate = df.format(currentDate);
+					int reset = Integer.valueOf(resetDate);
+					
+					Log.d("SC010Adapter", "birthY = " + birthY);
+					Log.d("SC010Adapter", "reset = " + reset);
+					int chknum = reset - birthY;
+					// 12, 15, 18, 39, ~
+					if(chknum <= 12){
+						if(sex == 1){
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_01_m));
+						}else{
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_01_g));
+						}
+					}
+					else if(chknum <= 15){
+						if(sex == 1){
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_02_m));
+						}else{
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_02_g));
+						}
+					}
+					else if(chknum <= 18){
+						if(sex == 1){
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_03_m));
+						}else{
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_03_g));
+						}
+					}
+					else if(chknum <= 39){
+						if(sex == 1){
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_04_m));
+						}else{
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_04_g));
+						}
+					}
+					else{
+						if(sex == 1){
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_05_m));
+						}else{
+							ivProfile.setBackgroundDrawable(res.getDrawable(R.drawable.prf_img_05_g));
+						}
+					}
+					
+					
+					
+					ivProfile.setImageDrawable(res.getDrawable(R.drawable.prf_box_bg));
+				}
+				else{
+					final String phtchk = ITEM.get("happy_photo").toString();
+					Log.d("SC010Adapter", "phtchk = " + phtchk);
+					
+					if(phtchk.length() > 0){
+						Log.d("SC010Adapter", "phtchk = " + phtchk);
+						final String simgUrl =  Global.host + ITEM.get("happy_photo").toString();
+						Log.d("SC010Adapter", "simgUrl = " + simgUrl);
+						loader.displayImage(simgUrl, ivProfile, option, new ImageLoadingListener() {
+									
+									@Override
+									public void onLoadingStarted(String arg0, View arg1) {
+									}
+									
+									@Override
+									public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+									}
+									
+									@SuppressLint("NewApi")
+									@SuppressWarnings("deprecation")
+									@Override
+									public void onLoadingComplete(String arg0, View v, Bitmap arg2) {
+										BitmapDrawable bitmapDrawable = new BitmapDrawable(res, arg2);
+										Drawable drawable = (Drawable)bitmapDrawable;
+										if(Integer.valueOf(android.os.Build.VERSION.SDK) > 15)
+										{
+											v.setBackground(drawable);
+											
+										}
+										else
+										{
+											v.setBackgroundDrawable(drawable);
+										}
+										
+										ivProfile.setImageDrawable(res.getDrawable(R.drawable.prf_box_bg));
+									}
+									
+									@Override
+									public void onLoadingCancelled(String arg0, View arg1) {
+									}
+								});
+					}
+					else
+					{
+						ivProfile.setImageDrawable(res.getDrawable(R.drawable.prf_box_bg));
+					}
+				}
+				
+				
+				
+				// nick name
+				final TextView tvNickName = (TextView)v.getTag(R.id.tv_s00120_item_nick_name);
+				final String sNickName = ITEM.get("nick_name").toString();
+				if(sNickName != null)
+				{
+					tvNickName.setText(sNickName);
+					
+				}
+				else
+				{
+					tvNickName.setText("");
+					
+				}
+				
+				final TextView tvMsgType = (TextView)v.getTag(R.id.tv_s00120_item_msg_type);
+				final int iType = Integer.valueOf(ITEM.get("msg_type").toString());
+				switch (iType) {
+				case 1:
+					tvMsgType.setText("가입축하");
+					break;
+				case 2:
+					tvMsgType.setText("생일축하");
+					break;
+				case 3:
+					tvMsgType.setText("시험격려");
+					break;
+				case 4:
+					tvMsgType.setText("성년의 날");
+					break;
+				case 5:
+					tvMsgType.setText("추석");
+					break;
+				case 6:
+					tvMsgType.setText("크리스마스");
+					break;
+				case 7:
+					tvMsgType.setText("새해");
+					break;
+				case 8:
+					tvMsgType.setText("설날");
+					break;
+				case 9:
+				default:
+					tvMsgType.setText("희망메세지");
+					break;
+				}
+				
+				final TextView tvContents = (TextView)v.getTag(R.id.tv_s00120_item_contents);
+				final String sContents = ITEM.get("contents").toString();
+				final int MAX = 80;
+				if(sContents.length() > MAX)
+				{
+					String sTemp = sContents.substring(0, MAX-5);
+					tvContents.setText(sTemp + "[...]");
+						
+				}
+				else
+				{
+					tvContents.setText(sContents);
+					
+				}
+				
+				final TextView tvWriterTime = (TextView)v.getTag(R.id.tv_s00120_item_write_time);
+				final String sWriteTime = ITEM.get("write_time").toString();
+				long svcTime = Long.parseLong(sWriteTime)+32400;
+				long curretUnixTime = (System.currentTimeMillis()/1000)+32400;		//millis -> seconds (korea).
+
+				long caseTime = curretUnixTime - svcTime;
+				if(caseTime < 60)
+				{
+					//set SecondsView
+					tvWriterTime.setText(caseTime+" 초전");
+				}
+				else if(caseTime < 3600)
+				{
+					//set MinutesView
+					float data = caseTime/60;
+					int time = (int) data;
+					tvWriterTime.setText(time+" 분전");
+				}
+				else if(caseTime < 86400)
+				{
+					//set HoursView
+					float data = caseTime/60/24;
+					int time = (int) data;
+					tvWriterTime.setText(time+" 시간전");
+				}
+				else
+				{
+					//set DateView (2099.12.31)
+					SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+					Date dt = new Date(svcTime*1000);
+					tvWriterTime.setText(df.format(dt));
+				}
+					
+				
+				
+				// switch background iage on pos.
+				final RelativeLayout rlBgLeft = (RelativeLayout)v.getTag(R.id.rl_s00120_item_bg);
+				switch(POS % 5)
+				{
+				case 0:
+					rlBgLeft.setBackgroundResource(R.drawable.post_box_bg_01);
+					break;
+				case 1:
+					rlBgLeft.setBackgroundResource(R.drawable.post_box_bg_02);
+					break;
+				case 2:
+					rlBgLeft.setBackgroundResource(R.drawable.post_box_bg_03);
+					break;
+				case 3:
+					rlBgLeft.setBackgroundResource(R.drawable.post_box_bg_04);
+					break;
+				case 4:
+					rlBgLeft.setBackgroundResource(R.drawable.post_box_bg_05);
+					break;
+				}
+				
+				final String read = ITEM.get("post_read").toString();
+				final RelativeLayout rlBgRight = (RelativeLayout)v.getTag(R.id.rl_s00120_item_bg_right);
+				Log.d("postread", read);
+				if(read.equals("Y"))
+				{
+					String color = "#ffffff";
+					rlBgRight.setBackgroundColor(Color.parseColor(color));
+				}
+				else
+				{
+					String color = "#e4f6fb";
+					rlBgRight.setBackgroundColor(Color.parseColor(color));
+				}
+				
+			}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+		// is user read.
+		
+		return v;
+	}
+	
+	
+	
+	
+
+	public void setList(ArrayList<Map<String, Object>> arrList2) {
+		arrList = arrList2;
+		
+	}
+
+}

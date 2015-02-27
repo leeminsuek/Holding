@@ -1,0 +1,329 @@
+package com.br.holding5.sc014;
+
+import org.json.JSONObject;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class MemberVO implements Parcelable{
+
+//	public int penLvl = 0;
+	public int sex = 1;
+	public String pushAllow = "";
+	public String phone = "";
+	public String location = "";
+	public String birthDay = "";
+	public String testDay4 = "";
+	public int cntDel = 0;
+	public String testDay3 = "";
+	public String testDay2 = "";
+	public String school = "";
+	public int memLvl = 0;
+	public String nickName = "";
+	public String userId = "";
+	public String name = "";
+	public String joinDay = "";
+	public int seq = 0;
+	public String happyPhoto = "";
+	public String regDay = "";
+	public String pswd= "";
+	public  String testDay1 = "";
+	public String happyIntro = "";
+	public String pushKey = "";
+	public int noReadPost  = 0;
+	public int noReadAlarm  = 0;
+	
+	
+	
+	public MemberVO(){}
+//	public int getPenLvl() {
+//		return penLvl;
+//	}
+//	public void setPenLvl(int penLvl) {
+//		this.penLvl = penLvl;
+//	}
+	public int getSex() {
+		return sex;
+	}
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+	public String getPushAllow() {
+		return pushAllow;
+	}
+	public void setPushAllow(String pushAllow) {
+		this.pushAllow = pushAllow;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getBirthDay() {
+		return birthDay;
+	}
+	public void setBirthDay(String birthDay) {
+		this.birthDay = birthDay;
+	}
+	public String getTestDay4() {
+		return testDay4;
+	}
+	public void setTestDay4(String testDay4) {
+		this.testDay4 = testDay4;
+	}
+	public int getCntDel() {
+		return cntDel;
+	}
+	public void setCntDel(int cntDel) {
+		this.cntDel = cntDel;
+	}
+	public String getTestDay3() {
+		return testDay3;
+	}
+	public void setTestDay3(String testDay3) {
+		this.testDay3 = testDay3;
+	}
+	public String getTestDay2() {
+		return testDay2;
+	}
+	public void setTestDay2(String testDay2) {
+		this.testDay2 = testDay2;
+	}
+	public String getSchool() {
+		return school;
+	}
+	public void setSchool(String school) {
+		this.school = school;
+	}
+	public int getMemLvl() {
+		return memLvl;
+	}
+	public void setMemLvl(int memLvl) {
+		this.memLvl = memLvl;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getJoinDay() {
+		return joinDay;
+	}
+	public void setJoinDay(String joinDay) {
+		this.joinDay = joinDay;
+	}
+	public int getSeq() {
+		return seq;
+	}
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+	public String getHappyPhoto() {
+		return happyPhoto;
+	}
+	public void setHappyPhoto(String happyPhoto) {
+		this.happyPhoto = happyPhoto;
+	}
+	public String getRegDay() {
+		return regDay;
+	}
+	public void setRegDay(String regDay) {
+		this.regDay = regDay;
+	}
+	public String getPswd() {
+		return pswd;
+	}
+	public void setPswd(String pswd) {
+		this.pswd = pswd;
+	}
+	public String getTestDay1() {
+		return testDay1;
+	}
+	public void setTestDay1(String testDay1) {
+		this.testDay1 = testDay1;
+	}
+	public String getHappyIntro() {
+		return happyIntro;
+	}
+	public void setHappyIntro(String happyIntro) {
+		this.happyIntro = happyIntro;
+	}
+	public String getPushKey() {
+		return pushKey;
+	}
+	public void setPushKey(String pushKey) {
+		this.pushKey = pushKey;
+	}
+	
+	public int getNoReadPost() {
+		return noReadPost;
+	}
+	public void setNoReadPost(int noReadPost) {
+		this.noReadPost = noReadPost;
+	}
+	public int getNoReadAlarm() {
+		return noReadAlarm;
+	}
+	public void setNoReadAlarm(int noReadAlarm) {
+		this.noReadAlarm = noReadAlarm;
+	}
+	public static MemberVO PasingJson(String json,MemberVO dto){
+		try {
+			JSONObject object;
+			//JSONArray data = null;
+			//data = new JSONArray(json.toString());
+			object = new JSONObject(json.toString());
+			if(object != null){
+//				dto.setPenLvl(object.getInt("penLvl"));
+				dto.setSex(object.getInt("sex"));
+				dto.setPushAllow(object.getString("pushAllow"));
+				dto.setPhone(object.getString("phone"));
+				dto.setLocation(object.getString("location"));
+				dto.setBirthDay(object.getString("birthDay"));
+				dto.setTestDay1(object.getString("testDay1"));
+				dto.setTestDay2(object.getString("testDay2"));
+				dto.setTestDay3(object.getString("testDay3"));
+				dto.setTestDay4(object.getString("testDay4"));
+				dto.setSchool(object.getString("school"));
+				dto.setMemLvl(object.getInt("memLvl"));
+				dto.setNickName(object.getString("nickName"));
+				dto.setUserId(object.getString("userId"));
+				dto.setName(object.getString("name"));
+				dto.setJoinDay(object.getString("joinDay"));
+				dto.setSeq(object.getInt("seq"));
+				dto.setHappyPhoto(object.getString("happyPhoto"));
+				dto.setRegDay(object.getString("regDay"));
+				dto.setPswd(object.getString("pswd"));
+				dto.setHappyIntro(object.getString("happyIntro"));
+				dto.setPushKey(object.getString("pushKey"));
+				dto.setNoReadAlarm(object.getInt("noReadAlarm"));
+				dto.setNoReadPost(object.getInt("noReadPost"));
+				
+			}
+			return dto;
+			/*object = new JSONObject(json.toString());
+			data = object.getJSONArray("data");*/
+			
+	/*		if (data != null) {
+				for(int i = 0 ; i < data.length();i++){
+					JSONObject obj = data.getJSONObject(0);
+					
+					dto.setCheck_cd(obj.getString("check_cd"));
+					dto.setStore_cd(obj.getString("store_cd"));
+					dto.setStore_nm(obj.getString("store_nm"));
+					dto.setReg_dt(obj.getString("reg_dt"));
+					dto.setUsr_nm(obj.getString("usr_nm"));
+					JSONObject obj2 = new JSONObject(obj.getString("check_list"));
+					//JSONArray array2 = new JSONArray(obj.getString("check_list"));
+					//JSONObject obj2 = array2.getJSONObject(0);
+					dto.setItem_cd(obj2.getString("item_cd"));
+					dto.setLabel(obj2.getString("label"));
+					dto.setContent(obj2.getString("content"));
+					
+				}
+			}*/
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
+	public MemberVO(Parcel in) {
+		readFromParcel(in);
+	}
+	
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+//		dest.writeInt(penLvl);
+		dest.writeInt(sex); 
+		dest.writeString(pushAllow); 
+		dest.writeString(phone);
+		dest.writeString(location);
+		dest.writeString(birthDay);
+		dest.writeString(testDay4);
+		dest.writeInt(cntDel);
+		dest.writeString(testDay3);
+		dest.writeString(testDay2);
+		dest.writeString(school);
+		dest.writeInt(memLvl);
+		dest.writeString(nickName);
+		dest.writeString(userId);
+		dest.writeString(name);
+		dest.writeString(joinDay); 
+		dest.writeInt(seq);  
+		dest.writeString(happyPhoto);
+		dest.writeString(regDay);
+		dest.writeString(pswd); 
+		dest.writeString( testDay1); 
+		dest.writeString(happyIntro);
+		dest.writeString(pushKey); 
+		dest.writeInt(noReadAlarm);
+		dest.writeInt(noReadPost);
+		
+	}
+	
+	private void readFromParcel(Parcel in) {
+//		penLvl = in.readInt();
+		sex = in.readInt();
+		pushAllow =in.readString();
+		phone =in.readString();
+		location =in.readString();
+		birthDay =in.readString();
+		testDay4 =in.readString();
+		cntDel = in.readInt();
+		testDay3 =in.readString();
+		testDay2 =in.readString();
+		school =in.readString();
+		memLvl = in.readInt();
+		nickName =in.readString();
+		userId =in.readString();
+		name =in.readString();
+		joinDay =in.readString();
+		seq = in.readInt();
+		happyPhoto =in.readString();
+		regDay =in.readString();
+		pswd=in.readString();
+		testDay1 =in.readString();
+		happyIntro =in.readString();
+		pushKey =in.readString();
+		noReadAlarm= in.readInt();
+		noReadPost= in.readInt();
+	}
+
+	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+		public MemberVO createFromParcel(Parcel in) {
+			return new MemberVO(in);
+		}
+
+		public MemberVO[] newArray(int size) {
+			return new MemberVO[size];
+		}
+	};
+}

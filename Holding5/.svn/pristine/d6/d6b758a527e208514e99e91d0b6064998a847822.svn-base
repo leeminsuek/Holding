@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrond"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/title_bg" >
+
+        <ImageButton
+            android:id="@+id/detail_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:background="@color/clear"
+            android:src="@drawable/selector_detail_back_btn" />
+
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" >
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/detail_back_btn"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@+id/detail_back_btn"
+                android:src="@drawable/title_logo_img" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/top_detail_common"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen15dp"
+                android:text="어려움 우리 함께 해결해요." />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1" >
+
+        <RelativeLayout
+            android:id="@+id/detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimen10dp"
+           >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/input_edit_layout"
+                    android:fillViewport="true"
+                    android:orientation="vertical" >
+
+                    <!-- <LinearLayout -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:orientation="vertical" > -->
+
+
+                    <!-- <RelativeLayout -->
+                    <!-- android:id="@+id/RelativeLayout2" -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_marginBottom="@dimen/dimen5dp" > -->
+
+
+                    <!-- <ImageView -->
+                    <!-- android:id="@+id/profile_img" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen10dp" -->
+                    <!-- android:layout_marginTop="@dimen/dimen15dp" /> -->
+
+
+                    <!-- <ImageView -->
+                    <!-- android:id="@+id/profile_mask_img" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen10dp" -->
+                    <!-- android:layout_marginTop="@dimen/dimen15dp" -->
+                    <!-- android:background="@drawable/prf_box_g_bg" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/list_item_time_txt" -->
+                    <!-- style="@style/list_create_time_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignBaseline="@+id/list_item_name_txt" -->
+                    <!-- android:layout_alignBottom="@+id/list_item_name_txt" -->
+                    <!-- android:layout_alignParentRight="true" -->
+                    <!-- android:layout_marginRight="@dimen/dimen15dp" -->
+                    <!-- android:text=" " /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/list_item_content_txt" -->
+                    <!-- style="@style/list_contents_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignLeft="@+id/list_item_name_txt" -->
+                    <!-- android:layout_below="@+id/list_item_name_txt" -->
+                    <!-- android:layout_marginTop="@dimen/dimen5dp" -->
+                    <!-- android:autoLink="all" -->
+                    <!-- android:text=" " /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/list_item_name_txt" -->
+                    <!-- style="@style/list_title_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignTop="@+id/profile_mask_img" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen15dp" -->
+                    <!-- android:layout_toRightOf="@+id/profile_mask_img" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/list_item_category_txt" -->
+                    <!-- style="@style/list_category_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_above="@+id/list_item_content_txt" -->
+                    <!-- android:layout_marginLeft="16dp" -->
+                    <!-- android:layout_toRightOf="@+id/list_item_name_txt" /> -->
+                    <!-- </RelativeLayout> -->
+
+
+                    <!-- <LinearLayout -->
+                    <!-- android:id="@+id/content_layout" -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:orientation="vertical" > -->
+                    <!-- </LinearLayout> -->
+
+
+                    <!-- <RelativeLayout -->
+                    <!-- android:id="@+id/status_layout" -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="@dimen/dimen25dp" -->
+                    <!-- android:layout_marginTop="@dimen/dimen15dp" > -->
+
+
+                    <!-- <ImageButton -->
+                    <!-- android:id="@+id/ico_good_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_centerVertical="true" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:layout_toLeftOf="@+id/textView3" -->
+                    <!-- android:background="@color/clear" -->
+                    <!-- android:src="@drawable/ico_good" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/ico_speaker_txt" -->
+                    <!-- style="@style/list_stastuc_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_alignParentRight="true" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_marginRight="15dp" -->
+                    <!-- android:gravity="center_vertical" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/textView22" -->
+                    <!-- style="@style/list_stastuc_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:layout_toLeftOf="@+id/ico_speaker_txt" -->
+                    <!-- android:gravity="center_vertical" -->
+                    <!-- android:text="신고" /> -->
+
+
+                    <!-- <ImageButton -->
+                    <!-- android:id="@+id/ico_speaker_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignTop="@+id/ico_reply_btn" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen10dp" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:layout_toLeftOf="@+id/textView22" -->
+                    <!-- android:background="@color/clear" -->
+                    <!-- android:src="@drawable/ico_speaker" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/ico_reply_txt" -->
+                    <!-- style="@style/list_stastuc_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_toLeftOf="@+id/ico_speaker_btn" -->
+                    <!-- android:gravity="center_vertical" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/textView1" -->
+                    <!-- style="@style/list_stastuc_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:layout_toLeftOf="@+id/ico_reply_txt" -->
+                    <!-- android:gravity="center_vertical" -->
+                    <!-- android:text="댓글" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/ico_good_txt" -->
+                    <!-- style="@style/list_stastuc_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_toLeftOf="@+id/ico_reply_btn" -->
+                    <!-- android:gravity="center_vertical" /> -->
+
+
+                    <!-- <TextView -->
+                    <!-- android:id="@+id/textView3" -->
+                    <!-- style="@style/list_stastuc_text" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:layout_toLeftOf="@+id/ico_good_txt" -->
+                    <!-- android:gravity="center_vertical" -->
+                    <!-- android:text="응원해요" /> -->
+
+
+                    <!-- <ImageButton -->
+                    <!-- android:id="@+id/ico_reply_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignTop="@+id/ico_good_btn" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen15dp" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:layout_toLeftOf="@+id/textView1" -->
+                    <!-- android:background="@color/clear" -->
+                    <!-- android:src="@drawable/ico_reply" /> -->
+
+
+                    <!-- <ImageButton -->
+                    <!-- android:id="@+id/ico_s_menu_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignParentLeft="true" -->
+                    <!-- android:layout_centerVertical="true" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen5dp" -->
+                    <!-- android:layout_marginRight="@dimen/dimen5dp" -->
+                    <!-- android:background="@color/clear" -->
+                    <!-- android:src="@drawable/ico_s_menu" /> -->
+
+
+                    <!-- <FrameLayout -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:background="@drawable/ico_group_line" > -->
+                    <!-- </FrameLayout> -->
+
+
+                    <!-- <Button -->
+                    <!-- android:id="@+id/good_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignLeft="@+id/ico_good_btn" -->
+                    <!-- android:layout_alignParentBottom="true" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_toLeftOf="@+id/reply_btn" -->
+                    <!-- android:background="@color/clear" /> -->
+
+
+                    <!-- <Button -->
+                    <!-- android:id="@+id/reply_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignLeft="@+id/ico_reply_btn" -->
+                    <!-- android:layout_alignParentBottom="true" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:layout_toLeftOf="@+id/repot_btn" -->
+                    <!-- android:background="@color/clear" /> -->
+
+
+                    <!-- <Button -->
+                    <!-- android:id="@+id/repot_btn" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_alignLeft="@+id/ico_speaker_btn" -->
+                    <!-- android:layout_alignParentBottom="true" -->
+                    <!-- android:layout_alignParentRight="true" -->
+                    <!-- android:layout_alignParentTop="true" -->
+                    <!-- android:background="@color/clear" /> -->
+
+
+                    <!-- <FrameLayout -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_toRightOf="@+id/ico_s_menu_btn" -->
+                    <!-- android:background="@drawable/ico_group_line" > -->
+                    <!-- </FrameLayout> -->
+                    <!-- </RelativeLayout> -->
+
+
+                    <!-- <RadioGroup -->
+                    <!-- android:id="@+id/reply_choice_layout" -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:background="@drawable/add_menu_bg" -->
+                    <!-- android:gravity="center" -->
+                    <!-- android:orientation="horizontal" > -->
+
+
+                    <!-- <RadioButton -->
+                    <!-- android:id="@+id/search_type_1_radio_btn" -->
+                    <!-- style="@style/search_radio_text" -->
+                    <!-- android:layout_width="1dp" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_marginBottom="@dimen/dimen5dp" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen15dp" -->
+                    <!-- android:layout_marginTop="@dimen/dimen5dp" -->
+                    <!-- android:layout_weight="1" -->
+                    <!-- android:button="@drawable/selector_main_search_check" -->
+                    <!-- android:checked="true" -->
+                    <!-- android:gravity="center_vertical" -->
+                    <!-- android:text="댓글 순서대로 보기" /> -->
+
+
+                    <!-- <RadioButton -->
+                    <!-- android:id="@+id/search_type_2_radio_btn" -->
+                    <!-- style="@style/search_radio_text" -->
+                    <!-- android:layout_width="1dp" -->
+                    <!-- android:layout_height="match_parent" -->
+                    <!-- android:layout_marginBottom="@dimen/dimen5dp" -->
+                    <!-- android:layout_marginLeft="@dimen/dimen5dp" -->
+                    <!-- android:layout_marginTop="@dimen/dimen5dp" -->
+                    <!-- android:layout_weight="1" -->
+                    <!-- android:button="@drawable/selector_main_search_check" -->
+                    <!-- android:gravity="center_vertical" -->
+                    <!-- android:text="최근에 등록된 댓글 보기" /> -->
+                    <!-- </RadioGroup> -->
+
+
+                    <!-- <View -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="1px" -->
+                    <!-- android:background="@drawable/ico_group_line" /> -->
+                    <!-- </LinearLayout> -->
+
+
+                    <!-- <View -->
+                    <!-- android:layout_width="match_parent" -->
+                    <!-- android:layout_height="1px" -->
+                    <!-- android:background="@drawable/ico_group_line" /> -->
+
+                    <ListView
+                        android:id="@+id/reply_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="2dp"
+                        android:background="@color/clear"
+                        android:clickable="false"
+                        android:divider="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:longClickable="false" >
+
+                    </ListView>
+                </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/input_edit_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="2dp"
+                android:layout_above="@+id/addbtn_layout"
+                android:background="@drawable/content_box_bg_center"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/reply_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen10dp"
+                    android:background="@drawable/rcd_contents_bg"
+                    android:padding="@dimen/dimen5dp" />
+
+                <com.br.holding5.sc003.gallery.DeleteImageView
+                    android:id="@+id/reply_photo_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" >
+                </com.br.holding5.sc003.gallery.DeleteImageView>
+
+<!--                 <View -->
+<!--                     android:layout_width="match_parent" -->
+<!--                     android:layout_height="1px" -->
+<!--                     android:background="@drawable/ico_group_line" /> -->
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/addbtn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="1dp"
+                android:padding="0dp"
+                android:background="@drawable/add_menu_bg"
+                android:layout_above="@+id/add_layout" >
+
+                <ImageButton
+                    android:id="@+id/add_video_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_add_menu4" />
+
+                <ImageButton
+                    android:id="@+id/add_audio_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/add_video_btn"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_add_menu3" />
+
+                <ImageButton
+                    android:id="@+id/add_picture_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/add_audio_btn"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_add_menu2" />
+
+                <ImageButton
+                    android:id="@+id/crop_add_picture_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/add_picture_btn"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_add_menu1" />
+
+                <ImageButton
+                    android:id="@+id/capture_add_video_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_add_menu5" />
+            </RelativeLayout>
+
+<!--             <View -->
+<!--                 android:id="@+id/line_view" -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="1dp" -->
+<!--                 android:layout_above="@+id/add_layout" -->
+<!--                 android:background="@drawable/ico_group_line" /> -->
+
+            <RelativeLayout
+                android:id="@+id/add_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/content_box_bg_bottom"
+                android:paddingBottom="@dimen/dimen10dp"
+                android:paddingTop="@dimen/dimen10dp" >
+
+                <CheckBox
+                    android:id="@+id/unknown_check"
+                    style="@style/detail_unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen50dp"
+                    android:button="@drawable/selector_main_search_check"
+                    android:paddingLeft="@dimen/dimen5dp"
+                    android:text="익명" />
+
+                <ImageButton
+                    android:id="@+id/reply_add_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen50dp"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_register_btn" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/detail_report_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen10dp"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:id="@+id/linear_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/content_box_bg"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen10dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="@dimen/dimen10dp"
+                        android:background="@drawable/input_box_bg"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:text="신고하기"
+                            android:textColor="#505051"
+                            android:textSize="@dimen/dimen23pt"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="신고할 이유를 선택해주세요."
+                            android:textColor="#505051"
+                            android:textSize="@dimen/dimen19pt" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:background="@drawable/set_menu_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen25dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:paddingBottom="@dimen/dimen10dp" >
+
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/dimen15dp" >
+
+                        <RadioButton
+                            android:id="@+id/radioButton1"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:checked="true"
+                            android:text="음란성 게시물" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton3"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="개인정보 유출" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton5"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="타인 사칭" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton7"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="기타 악플" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/dimen25dp" >
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="욕설 및 비방" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton4"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="도배" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton6"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="홍보 및 광고" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_top"
+                android:layout_marginTop="@dimen/dimen10dp" >
+
+                <ImageButton
+                    android:id="@+id/report_btn"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_btn_report" />
+
+                <ImageButton
+                    android:id="@+id/report_cancle_btn"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_btn_report_cancle" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/RelativeLayout3" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:layout_alignParentLeft="true" -->
+    <!-- android:layout_below="@+id/relativeLayout1" -->
+    <!-- android:layout_margin="@dimen/dimen10dp" -->
+    <!-- android:background="@drawable/rcd_contents_bg" > -->
+
+
+    <!-- <ImageView -->
+    <!-- android:id="@+id/imageView12" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentLeft="true" -->
+    <!-- android:layout_alignParentTop="true" -->
+    <!-- android:layout_marginLeft="@dimen/dimen10dp" -->
+    <!-- android:layout_marginTop="@dimen/dimen15dp" -->
+    <!-- android:src="@drawable/ic_launcher" /> -->
+    <!-- </RelativeLayout> -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

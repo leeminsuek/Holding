@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/dimen5dp"
+    android:orientation="vertical" >
+
+    <!-- <com.br.holding5.ms.ResizeImageView -->
+    <!-- android:id="@+id/resize_imgview" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_centerInParent="true" > -->
+    <!-- </com.br.holding5.ms.ResizeImageView> -->
+
+
+    <!-- <ImageButton -->
+    <!-- android:id="@+id/video_play_btn" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_centerHorizontal="true" -->
+    <!-- android:layout_centerVertical="true" -->
+    <!-- android:background="@color/clear" -->
+    <!-- android:src="@android:drawable/ic_menu_slideshow" /> -->
+
+    <TextView
+        android:id="@+id/reply_video_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen10dp"
+        android:layout_marginLeft="@dimen/dimen15dp"
+        android:layout_marginRight="@dimen/dimen15dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@drawable/rcd_contents_bg"
+        android:clickable="true"
+        android:drawableRight="@drawable/rcd_play_btn"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="5dp"
+        android:text="준비된 영상이 있습니다."
+        android:textColor="#979899"
+        android:textSize="@dimen/dimen19pt"
+        android:visibility="visible" />
+
+</RelativeLayout>

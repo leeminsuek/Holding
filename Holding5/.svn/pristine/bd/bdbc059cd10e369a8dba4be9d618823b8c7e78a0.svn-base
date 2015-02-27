@@ -1,0 +1,183 @@
+package com.br.holding5.s00121;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.br.holding5.Global;
+import com.br.holding5.Holding5;
+import com.br.holding5.WriteFileLog;
+import com.br.holding5.ms.Common;
+import com.br.holding5.s01116.S01116;
+import com.br.holding5.sc008.SC008_S00124.HopeMsg_adapter;
+import com.brainyx.holding5.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+/**
+ * 운영자 건의 게시판 (아이템)
+ * 리스트조회
+ * @author win
+ *
+ */
+public class S00121_ListAdapter extends BaseAdapter{
+	private Context mContext;
+	private ArrayList<ProposalVO> mItems;
+	private LayoutInflater mInflater;
+	private ImageLoader loader;
+	private DisplayImageOptions option;
+	private Holding5 myApp;
+	private SparseArray<WeakReference<View>> mViewArray;
+
+	public S00121_ListAdapter(Context context, ArrayList<ProposalVO> items,ImageLoader loader, DisplayImageOptions option , Holding5 myapp) {
+		mContext = context;
+		mInflater = LayoutInflater.from(context);
+		mItems = items;
+		this.option = option;
+		this.loader = loader;
+		myApp = myapp;
+		this.mViewArray = new SparseArray<WeakReference<View>>(items.size());
+	}
+
+	@Override
+	public int getCount() {
+		return mItems.size();
+	}
+
+	@Override
+	public ProposalVO getItem(int position) {
+		return mItems.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public class ViewHolder{
+		TextView writer;
+		TextView contents;
+		TextView date ;
+	}
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		try {
+			if(mViewArray != null && mViewArray.get(position) != null) {
+				convertView = mViewArray.get(position).get();
+				if(convertView != null)
+					return convertView;
+			}
+			
+			try {
+				
+				final ProposalVO item = getItem(position);
+				int seq = item.getSeq();
+				String proposalId = item.getProposalId().toString();
+				String nickName = item.getNickName().toString();
+				String happyPhoto = item.getHappyPhoto().toString();					
+				String content = item.getContents().toString();
+				String sendTime = item.getSendTime().toString();
+				
+				Log.d("aaa", content);
+				Log.d("aaa", content.length() + "");
+
+				//특수문자 or 영어 일때는 1length 로 따지는데..문제
+				content = content.replaceAll("\n", " ");
+				content = content.trim();
+				
+				if(content.length() > 40) {
+					content = content.substring(0,40);
+					content += "[ ... ]";
+				}
+			
+				
+				convertView = mInflater.inflate(R.layout.s00121_item, null);
+				TextView writer = (TextView)convertView.findViewById(R.id.writer_text);
+				TextView contents = (TextView)convertView.findViewById(R.id.contents_text);
+				TextView date = (TextView)convertView.findViewById(R.id.date_text);
+				final ImageView profile = (ImageView) convertView.findViewById(R.id.list_item_profile_img);
+				final ImageView profileMask = (ImageView) convertView.findViewById(R.id.profile_mask_img);
+				
+				writer.setText(nickName);
+				contents.setText(content);
+				date.setText(Common.CreateDataWithCheck(sendTime));
+				
+				if(item.getMemLvl() == 2) {
+					profileMask.setImageResource(R.drawable.happy_prf_bg_01);
+				}
+				else if(item.getMemLvl() == 3) {
+					profileMask.setImageResource(R.drawable.happy_prf_bg_02);
+				}
+				else if(item.getMemLvl() == 4) {
+					profileMask.setImageResource(R.drawable.happy_prf_bg_03);
+				}
+				else {
+					profileMask.setImageResource(R.drawable.prf_box_bg);
+				}
+				
+				if(item.getMemLvl() == 1) {
+					profile.setImageBitmap(Common.getProfileImage(mContext, item.getMemLvl(), item.getSex(), item.getBirthDay()));
+				}
+				else if(item.getMemLvl() == 5) {
+					loader.displayImage(Global.host + happyPhoto, profile);
+//					holder.prgImg.setImageBitmap(Common.getProfileImage(mContext, item));
+				}
+				else {
+					loader.displayImage(Global.host + happyPhoto, profile);
+//					holder.prgImg.setImageBitmap(Common.getProfileImage(mContext, item));
+				}
+				
+				// 이미지 사진 바꿔주기....
+//				final String simgUrl =  Global.host + happyPhoto;
+//				loader.displayImage(simgUrl, profile, option);
+				
+				convertView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(mContext, S01116.class);
+						intent.putExtra("seq", item.getSeq());
+//						intent.putExtra("proposalId", item.getProposalId());
+//						intent.putExtra("nickName", item.getNickName());
+//						intent.putExtra("happyPhoto", item.getHappyPhoto());
+//						intent.putExtra("contents", item.getContents());
+//						intent.putExtra("send_time", item.getSendTime());
+//						
+						((Activity)mContext).startActivityForResult(intent, 1000);
+					}
+				});
+			} finally {
+				mViewArray.put(position, new WeakReference<View>(convertView));
+			}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+		return convertView;
+	}
+	
+	public void update() {
+		try {
+			mViewArray.clear();
+			notifyDataSetChanged();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	
+	}
+	
+	
+	
+}
+

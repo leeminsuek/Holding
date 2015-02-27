@@ -1,0 +1,427 @@
+package com.br.holding5.sc008;
+
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.WriteFileLog;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.ms.Common;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+import com.brainyxlib.BrUtilManager.dialogclick;
+
+public class SC008_S01117 extends BaseActivity{
+	
+	public static SC008_S01117 Instance = null;
+	public static SC008_S01117 getInstance(){
+		return Instance;
+	}
+	
+	Context context;
+	ImageView imageView_back;
+	ImageView imageView_profile_mask;
+	ImageView imageView_profile;
+	TextView textView_nickname;
+	TextView textView_msgtype;
+	TextView textView_regdate;
+	TextView textView_contents;
+	ImageView imageView_contents_1;
+	ImageView imageView_contents_2;
+	ImageView imageView_contents_3;
+	ImageView imageView_contents_4;
+	ImageView imageView_contents_5;
+	TextView textView_audio;
+	TextView textView_video;
+	ImageButton button_footer;
+	LinearLayout linearLayout_more;
+	LinearLayout linearLayout_modify;
+	LinearLayout linearLayout_del;
+	String userId = "";
+	int msgType = 0;
+	int msgSeq= 0;
+	
+	String audioName = "";
+	String movName = "";
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		try {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.s01117);
+			
+			getParam();
+			init();	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+		
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		try {
+			getData();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+
+
+	private void getData() {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("userId", userId);
+			params.put("msgType", msgType);
+			
+			AQuery aquery = new AQuery(this);
+
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			//		dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.HAPPYIN_GETMESSAGE, params, JSONObject.class, this, "happyinGetMsgCallBack");	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+
+	public void happyinGetMsgCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			String data = jsonObject.getString("data");
+			
+			
+//			"photoName2": "http:\/\/s3-ap-northeast-1.amazonaws.com\/brainyx1\/Screenshot_2013-07-30-22-48-06.png",
+//			  "photoName1": "http:\/\/s3-ap-northeast-1.amazonaws.com\/brainyx1\/Screenshot_2013-07-22-14-52-31.png",
+//			  "photoName4": "",
+//			  "photoName3": "",
+//			  "contents": "ㅎㅎㅎㅎㅎ",
+//			  "audioName": "http:\/\/s3-ap-northeast-1.amazonaws.com\/brainyx1\/음성 녹음 025.m4a",
+//			  "movName": "::",
+//			  "photoName5": "",
+//			  "kind": 0,
+//			  "id": "test1",
+//			  "religion": 0,
+//			  "memLvl": 1,
+//			  "writeTime": "2014-12-03 17:21:36.0",
+//			  "nickName": "zzzz",
+//			  "seq": 107,
+//			  "msgType": 1
+			  
+			  
+			try {
+				JSONObject job = new JSONObject(data);
+				
+				String photoName1 = job.getString("photoName1");
+				String photoName2 = job.getString("photoName2");
+				String photoName3 = job.getString("photoName3");
+				String photoName4 = job.getString("photoName4");
+				String photoName5 = job.getString("photoName5");
+				String contents = job.getString("contents");
+				audioName = job.getString("audioName");
+				movName = job.getString("movName");
+				String kind = String.valueOf(job.getInt("kind"));
+				String religion = String.valueOf(job.getInt("religion"));
+				String id = job.getString("id");
+				String writeTime = job.getString("writeTime");
+				int memLvl = job.getInt("memLvl");
+//				int lvl = Integer.parseInt(memLvl);
+				msgSeq = job.getInt("seq");
+				String nickName = job.getString("nickName");
+				msgType = job.getInt("msgType");
+				String happyPhoto = job.getString("happyPhoto");
+				String birthDay = job.getString("birthDay");
+				int sex = job.getInt("sex");
+				
+				textView_nickname.setText(nickName);
+				textView_contents.setText(contents);
+				
+				if(!photoName1.toString().equals("")){
+					imageView_contents_1.setVisibility(View.VISIBLE);
+					super.myApp.imageloder.displayImage(photoName1, imageView_contents_1);					
+				}
+				
+				if(!photoName2.toString().equals("")){
+					imageView_contents_2.setVisibility(View.VISIBLE);
+					super.myApp.imageloder.displayImage(photoName2, imageView_contents_2);					
+				}
+				
+				if(!photoName3.toString().equals("")){
+					imageView_contents_3.setVisibility(View.VISIBLE);
+					super.myApp.imageloder.displayImage(photoName3, imageView_contents_3);					
+				}
+				
+				if(!photoName4.toString().equals("")){
+					imageView_contents_4.setVisibility(View.VISIBLE);
+					super.myApp.imageloder.displayImage(photoName4, imageView_contents_4);					
+				}
+				
+				if(!photoName5.toString().equals("")){
+					imageView_contents_5.setVisibility(View.VISIBLE);
+					super.myApp.imageloder.displayImage(photoName5, imageView_contents_5);					
+				}
+				
+				
+				if(memLvl == 2) {
+					imageView_profile_mask.setImageResource(R.drawable.happy_prf_bg_01);
+				}
+				else if(memLvl == 3) {
+					imageView_profile_mask.setImageResource(R.drawable.happy_prf_bg_02);
+				}
+				else if(memLvl == 4) {
+					imageView_profile_mask.setImageResource(R.drawable.happy_prf_bg_03);
+				}
+				else {
+					imageView_profile_mask.setImageResource(R.drawable.prf_box_bg);
+				}
+				
+				if(memLvl == 1) {
+					imageView_profile.setImageBitmap(Common.getProfileImage(this, memLvl, sex, birthDay));
+				}
+				else if(memLvl == 5) {
+					myApp.imageloder.displayImage(Global.host + happyPhoto, imageView_profile);
+//					holder.prgImg.setImageBitmap(Common.getProfileImage(mContext, item));
+				}
+				else {
+					myApp.imageloder.displayImage(Global.host + happyPhoto, imageView_profile);
+//					holder.prgImg.setImageBitmap(Common.getProfileImage(mContext, item));
+				}
+				
+				
+				textView_msgtype.setText(Common.getCategoryKindString(Integer.parseInt(kind)));
+				textView_regdate.setText(Common.CreateDataWithCheck(writeTime));
+				
+				if(!audioName.toString().equals("")){
+					textView_audio.setVisibility(View.VISIBLE);
+				}
+				
+				if(!movName.toString().equals("::")){
+					textView_video.setVisibility(View.VISIBLE);
+				}
+				
+				
+			} catch (Exception e) {
+				WriteFileLog.writeException(e);
+			}
+			
+		}else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+
+
+
+	private void getParam() {
+		// TODO Auto-generated method stub
+		Intent intent = getIntent();
+		try {
+			userId = intent.getExtras().getString("userId");
+			msgType = intent.getExtras().getInt("msgType");
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+
+
+
+	private void init() {
+		// TODO Auto-generated method stub
+		try {
+			context = this;
+			Instance = this;
+			
+			imageView_back = (ImageView)findViewById(R.id.imageView_back);
+			imageView_profile_mask = (ImageView) findViewById(R.id.imageView_profile_mask);
+			imageView_profile = (ImageView)findViewById(R.id.imageView_profile);
+			textView_nickname = (TextView)findViewById(R.id.textView_nickname);
+			textView_msgtype = (TextView)findViewById(R.id.textView_msgtype);
+			textView_regdate = (TextView)findViewById(R.id.textView_regdate);
+			textView_contents = (TextView)findViewById(R.id.textView_contents);
+			imageView_contents_1 = (ImageView)findViewById(R.id.imageView_contents_1);
+			imageView_contents_2 = (ImageView)findViewById(R.id.imageView_contents_2);
+			imageView_contents_3 = (ImageView)findViewById(R.id.imageView_contents_3);
+			imageView_contents_4 = (ImageView)findViewById(R.id.imageView_contents_4);
+			imageView_contents_5 = (ImageView)findViewById(R.id.imageView_contents_5);
+			textView_audio = (TextView)findViewById(R.id.textView_audio);
+			textView_video = (TextView)findViewById(R.id.textView_video);
+			button_footer = (ImageButton)findViewById(R.id.button_footer);
+			linearLayout_more = (LinearLayout)findViewById(R.id.linearLayout_more);
+			linearLayout_modify = (LinearLayout)findViewById(R.id.linearLayout_modify);
+			linearLayout_del = (LinearLayout)findViewById(R.id.linearLayout_del);
+			button_footer.setTag(false);
+			
+			
+			//listener
+			//////////////////////////////////////////////////////////////////////////////
+			imageView_back.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+			
+			button_footer.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					boolean footerFlag = (Boolean) button_footer.getTag(); 
+					button_footer.setTag(!footerFlag);
+					
+					if((Boolean) button_footer.getTag()){
+						linearLayout_more.setVisibility(View.VISIBLE);
+					}else{
+						linearLayout_more.setVisibility(View.GONE);
+					}
+					
+				}
+			});
+			
+			linearLayout_modify.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+					Intent intent = new Intent(SC008_S01117.this, SC008_S11116.class);
+					intent.putExtra("userId", userId);
+					intent.putExtra("msgType", msgType);
+					intent.putExtra("msgSeq", msgSeq);
+					startActivity(intent);
+					
+				}
+			});
+			
+			linearLayout_del.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+					BrUtilManager.getInstance().ShowDialog2btn(SC008_S01117.this, "알림", "정말로 삭제하시겠습니까?", new dialogclick() {
+						@Override
+						public void setondialogokclick() {
+							delMessage();
+						}
+						
+						@Override
+						public void setondialocancelkclick() {
+							return;
+						}
+					});
+					
+					
+				}
+			});
+			
+			textView_audio.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+
+					Uri uri = Uri.parse(audioName);
+					Intent intent = new Intent(Intent.ACTION_VIEW);  
+					intent.setDataAndType(uri, "audio/*");  
+					context.startActivity(intent);
+				
+					
+				}
+			});
+			
+			textView_video.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String[] split = movName.split("::");
+					String movie = split[0];
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setDataAndType(Uri.parse(movie), "video/*");
+					startActivity(i);
+				}
+			});
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	
+		
+		
+	}
+	
+	
+	private void delMessage() {
+		
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("seq", msgSeq);
+			
+			AQuery aquery = new AQuery(this);
+
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			//		dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.HAPPYIN_DELETEMESSAGE, params, JSONObject.class, this, "happyinDelMsgCallBack");	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+
+	public void happyinDelMsgCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		try {
+			boolean result = jsonObject.getBoolean("result");
+			String message = jsonObject.getString("message");
+			if(result) {
+				BrUtilManager.getInstance().showToast(this, message);
+				finish();
+			}else {
+				BrUtilManager.getInstance().showToast(this, message);
+			}	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+}
+

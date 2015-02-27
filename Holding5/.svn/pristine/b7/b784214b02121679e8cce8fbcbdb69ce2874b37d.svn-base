@@ -1,0 +1,120 @@
+package com.br.holding5;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+
+import com.br.holding5.util.HttpUtil;
+import com.br.holding5.util.HttpUtil.OnAfterParsedData2;
+
+public class Global {
+	public static String Shared_Sound = "hd_sound";// 소리설정
+	public static String Shared_vib = "hd_vib";// 진동설정
+	public static String Shared_nopush = "hd_nopush";// 푸쉬설정
+	public static String Shared_manner = "hd_manner";// 매너모드설정
+	/**
+	 * 매너모드 시작,종료 시간설정 예)1_5_24 < _로잘라서 맨앞은 오전,오후 1이오전 2가오후
+	 * 중간은 시간
+	 * 마지막은 분
+	 * 종료시간도 동일
+	 */
+	public static String Shared_nosound = "hd_nosound";
+	public static String Shared_sttime = "hd_sttime";// 매너모드 시작시간설정
+	public static String Shared_endtime = "hd_endtime";// 매너모드 종료시간설정
+
+	public static String host = "http://brainyx711.iptime.org:5943/";
+//	public static String host = "http://brainyx711.iptime.org:6384/";
+	public static String imgHost = host;
+
+	// URL
+	//	public final static String BASE_URL = "http://brainyx711.iptime.org:6385";
+	//	public final static String BASE_URL = "http://brainyx711.iptime.org:6384";
+	public final static String URL_GETPROFILE = host + "profile/getProfile";
+	public final static String URL_MODIFYNICK = host + "profile/editNickName";
+	public final static String URL_BOARDLIST = host + "profile/getBoardList";
+	public final static String URL_REPLYLIST = host + "profile/getReplyList";
+	public final static String URL_HAPPYMEMBER = host + "profile/getHappyMember";
+
+	public final static String URL_MEMBERDEL = host + "profile/memberDel";
+	public final static String URL_LOGOUT = host + "profile/logout";
+	public final static String URL_CHANGEPW= host + "profile/changePw";
+	public final static String URL_CHANGEBIRTH= host + "profile/editBirthDay";
+	public final static String URL_CHANGESCHOOL= host + "profile/editSchool";
+	public final static String URL_CHANGELOCATION= host + "profile/editLocation";
+
+
+	public static final String BOARD_LIST = host + "board/list";
+	public static final String BOARD_LIKE = host + "board/like";
+	public static final String BOARD_DETAIL = host + "board/detail";
+	public static final String BOARD_DELETE = host + "board/delete";
+	public static final String BOARD_REPORT = host + "board/report";
+	public static final String BOARD_BOARD_ADD = host + "board/addBoard";
+	public static final String BOARD_REPLY = host + "board/reply";
+	public static final String BOARD_REPLY_LIKE = host + "board/replyLike";
+	public static final String BOARD_ADD_REPLY = host + "board/addReply";
+	public static final String BOARD_REPLY_REPORT = host + "board/replyReport";
+	public static final String BOARD_TEMP_LIST = host + "board/tempList";
+	public static final String BOARD_EDIT = host + "board/editBoard";
+	public static final String BOARD_DELETE_REPLY = host + "board/deleteReply";
+
+	public static final String NOTICE_LIST = host + "notice/list";
+	public static final String PROPOSAL_LIST = host + "proposal/list";
+	public static final String PROPOSAL_DETAIL = host + "proposal/detail";
+	public static final String PROPOSAL_INSERT = host + "proposal/insert";
+	public static final String PROPOSAL_UPDATE = host + "proposal/update";
+	public static final String PROPOSAL_DELETE = host + "proposal/delete";
+
+	public interface httpCallBack {
+		public void JsonCallback(JSONObject jsonObject, String api)
+				throws JSONException;
+	}
+
+	public static httpCallBack mHttpCallBack;
+
+	public static void excuteHttp(Activity context, final String api,
+			Map<String, Object> keyMap, httpCallBack callback) {
+		try {
+			mHttpCallBack = callback;
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put(HttpUtil.KEY_URL, api);
+
+			Iterator<String> iterator = keyMap.keySet().iterator();
+			while (iterator.hasNext()) {
+				String key = (String) iterator.next();
+				Object value = keyMap.get(key);
+				params.put(key, value);
+			}
+
+			HttpUtil.getInstance().requestHttp2(context, params,
+					new OnAfterParsedData2() {
+				@Override
+				public void onResult2(JSONObject jsonObject)
+						throws JSONException {
+					// boolean yn = result;
+					// try {
+					// Log.d("TAG_JSON", resultData.toString());
+					//
+					// } catch (Exception e) {
+					// e.printStackTrace();
+					// }finally{ /// 끝나면 핸들러로 화면셋팅
+					// if(yn) {
+					mHttpCallBack.JsonCallback(jsonObject, api);
+					// }
+					// }
+				}
+
+				@Override
+				public void onResult3() {
+					// mHttpCallBack.
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

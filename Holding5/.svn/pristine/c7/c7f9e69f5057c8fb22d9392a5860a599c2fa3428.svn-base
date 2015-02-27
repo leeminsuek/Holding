@@ -1,0 +1,334 @@
+package com.br.holding5.s01116;
+
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.WriteFileLog;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.ms.Common;
+import com.br.holding5.ms.CommonDialog;
+import com.br.holding5.ms.CommonDialog.onMenuItemSelectListener;
+import com.br.holding5.s11113.S11113;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+import com.brainyxlib.BrUtilManager.dialogclick;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+/**
+ * 운영자 건의 게시판 
+ * 상세화면
+ * @author win
+ *
+ */
+public class S01116 extends BaseActivity {
+	private int mSeq;
+	private String mContents;
+	private String mSendTime;
+	private String mProposalId;
+	private String mNickName;
+	private String mHappyPhoto;
+	private ImageView mMaskImgView;
+	private TextView mWritetext;
+	private TextView mDatetext;
+	private TextView mContent;
+	private ImageView mProfile;
+	private ImageButton menuBtn;
+	private ImageButton mBackBtn;
+	private CommonDialog mDialog;
+	
+	private String mUserId;
+//	static final String sURL = "http://192.168.1.159:8080";
+	
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		try {
+			setContentView(R.layout.s011162);		// s01116은 우체통으로 이미 쓰고있다?
+			mUserId = myApp.getUserInfo().getUserId();
+			Log.d("win", " 시작한다");
+			Intent resultIntent = getIntent();
+			mSeq = resultIntent.getIntExtra("seq", 0);
+			
+			Log.d("win", "requestProposalDetail : " + mSeq);
+			requestProposalDetail(mSeq);
+			
+			menuBtn = (ImageButton)findViewById(R.id.ico_s_menu_btn);
+			mBackBtn = (ImageButton) findViewById(R.id.backBtn);
+			mMaskImgView = (ImageView) findViewById(R.id.profile_mask_img);
+			
+			// 메뉴창 클릭시 수정 or 삭제 
+			menuBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mDialog = new CommonDialog(S01116.this);
+					mDialog.createBoardMenu(new onMenuItemSelectListener() {
+						@Override
+						public void onMenuItemSelected(int position) {
+							mDialog.dismiss();
+							createDialog(position);
+						}
+					});
+					mDialog.show();
+
+				}
+			});
+			mBackBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					setResult(1); 
+					finish();
+				}
+			});
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+	
+	
+	
+	com.br.holding5.sc003.S00113_ListAdapter.statusCallBack mStatusCallBack;
+	
+	private void createDialog(int position) {
+		try {
+			//삭제
+			if(position == 2) {
+				BrUtilManager.getInstance().ShowDialog2btn(S01116.this, getResources().getString(R.string.app_name), "게시글을 삭제하시겠습니까?", new dialogclick() {
+					@Override
+					public void setondialogokclick() {
+						deleteProposal(mSeq);
+					}
+					
+					@Override
+					public void setondialocancelkclick() {
+						return;
+					}
+				});
+//				AlertDialog.Builder alert_confirm = new AlertDialog.Builder(S01116.this);
+//				alert_confirm.setMessage("게시글을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+//						new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						// 'YES'
+//						deleteProposal(mSeq);
+//					}
+//				}).setNegativeButton("취소",
+//						new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						// 'No'
+//						return;
+//					}
+//				});
+//				AlertDialog alert = alert_confirm.create();
+//				alert.show();
+			} else {	//수정
+				Intent intent = new Intent(S01116.this, S11113.class);
+				
+				intent.putExtra("seq", mSeq);
+				intent.putExtra("contents", mContents);
+				
+				startActivityForResult(intent, 1000);
+			}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	// 상세화면 조회
+	private void requestProposalDetail( int seq ) {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put( "seq", seq );
+			Log.d("win", seq + "");
+			
+			AQuery aquery = new AQuery(this);
+
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+			dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.PROPOSAL_DETAIL, params, JSONObject.class, this, "proposalDetailCallBack");			
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	// 상세화면 조회
+	public void proposalDetailCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+
+		Log.d("winJSON" , jsonObject.toString());
+		try {
+			if(!jsonObject.isNull("data")) {
+				JSONObject item = jsonObject.getJSONObject("data");
+				Log.d("winJSON", item.toString());
+				
+				ImageLoader loader = myApp.imageloder;
+				DisplayImageOptions option = myApp.options;
+				
+				int seq = item.getInt( "seq");
+				mNickName = item.getString( "nickName");
+				mContents = item.getString("contents");
+				mHappyPhoto = item.getString( "happyPhoto" );
+				mSendTime = item.getString( "sendTime");
+				
+				String userId = item.getString("userId");
+				
+				int sex = item.getInt("sex");
+				int memLvl = item.getInt("memLvl");
+				String birthDay = item.getString("birthDay");
+				
+				mWritetext = (TextView) findViewById( R.id.writer_text);
+				mDatetext = (TextView) findViewById( R.id.date_text);
+				mContent = (TextView) findViewById( R.id.contents_text);
+				mProfile = (ImageView) findViewById( R.id.list_item_profile_img);
+
+				mWritetext.setText( mNickName );
+				mDatetext.setText( Common.CreateDataWithCheck(mSendTime) );
+				mContent.setText( mContents );
+				
+				if(memLvl == 2) {
+					mMaskImgView.setImageResource(R.drawable.happy_prf_bg_01);
+				}
+				else if(memLvl == 3) {
+					mMaskImgView.setImageResource(R.drawable.happy_prf_bg_02);
+				}
+				else if(memLvl == 4) {
+					mMaskImgView.setImageResource(R.drawable.happy_prf_bg_03);
+				}
+				else {
+					mMaskImgView.setImageResource(R.drawable.prf_box_bg);
+				}
+				
+				if(memLvl == 1) {
+					mProfile.setImageBitmap(Common.getProfileImage(S01116.this, memLvl, sex, birthDay));
+				}
+				else if(memLvl == 5) {
+					if(mHappyPhoto.startsWith("http")) {
+						myApp.imageloder.displayImage(mHappyPhoto, mProfile);
+					}
+					else {
+						myApp.imageloder.displayImage(Global.host + mHappyPhoto, mProfile);	
+					}
+					
+				}
+				else {
+					if(mHappyPhoto.startsWith("http")) {
+						myApp.imageloder.displayImage(mHappyPhoto, mProfile);
+					}
+					else {
+						myApp.imageloder.displayImage(Global.host + mHappyPhoto, mProfile);	
+					}
+					
+				}
+
+				if(userId.equals(myApp.getUserInfo().getUserId())) {
+					menuBtn.setVisibility(View.VISIBLE);
+				}
+				else {
+					menuBtn.setVisibility(View.INVISIBLE);
+				}
+
+//				final String simgUrl =  sURL + mHappyPhoto;
+//				loader.displayImage(simgUrl, mProfile, option);
+			}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	// 삭제
+	private void deleteProposal( int seq) {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put( "seq", seq );
+			
+			AQuery aquery = new AQuery(this);
+			Dialog dialog = new Dialog(this, R.style.TransDialog);
+			dialog.setContentView(new ProgressBar(this));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//			dialog.show();	
+
+			aquery.progress(dialog).ajax(Global.PROPOSAL_DELETE, params, JSONObject.class, this, "deleteProCallBack");	
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	//삭제 콜백
+	public void deleteProCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		try {
+			boolean result = jsonObject.getBoolean("result");
+			String message = jsonObject.getString("message");
+			
+			BrUtilManager.getInstance().showToast(this, message);
+			setResult((result) ? 1 : 2);
+			
+			if(result) {
+				finish();
+			}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		try {
+			super.onActivityResult(requestCode, resultCode, data);
+			Log.d("asd", resultCode+"");
+			if(requestCode == 1000) {
+				if(resultCode == 1) {
+					requestProposalDetail(mSeq);
+				}else{
+					
+				}
+			}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK) {
+			setResult(1);
+			finish();
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+//	
+//	@Override
+//	public void onBackPressed() {
+//		setResult(1);
+//		finish();
+//	}
+
+}

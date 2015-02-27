@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrond" >
+
+    <!-- TITLE BAR -->
+
+    <RelativeLayout
+        android:id="@+id/rl_s00119_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/title_bg" >
+
+        <ImageButton
+            android:id="@+id/ib_s00119_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:background="@color/clear"
+            android:src="@drawable/selector_detail_back_btn" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/title_logo_img" />
+
+            <TextView
+                style="@style/top_detail_common"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:text="이벤트 입력" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_s00119_title_bar" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rl_s00119_top_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_s00119_title_bar"
+                android:layout_centerVertical="true" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/dimen20dp"
+                    android:layout_marginLeft="@dimen/dimen15dp"
+                    android:layout_marginRight="@dimen/dimen15dp"
+                    android:layout_marginTop="@dimen/dimen20dp"
+                    android:background="@drawable/content_box_bg"
+                    android:padding="@dimen/dimen10dp"
+                    android:text="안녕하세요.\n여기는 여러분의 생일과 시험기간 등을 입력하는 곳입니다.\n정확한 날짜를 입력해 주셔야 해피인들의 축하메세지를 받을 수 있습니다. ^^"
+                    android:textColor="@color/color_818181"
+                    android:textSize="@dimen/dimen23pt" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#d3d3d3" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen20dp"
+                android:background="@drawable/pop_notice_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen10dp" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen15dp"
+                    android:gravity="center_vertical|start"
+                    android:text="생일 입력"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/dimen23pt" />
+
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen10dp"
+                    android:stretchColumns="*" >
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen10dp"
+                        android:layout_marginTop="@dimen/dimen10dp" >
+
+                        <Spinner
+                            android:id="@+id/sp_s00119_yyyy"
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen35dp"
+                            android:layout_marginLeft="@dimen/dimen3dp"
+                            android:layout_marginRight="@dimen/dimen3dp"
+                            android:background="@drawable/input_box_bg"
+                            android:gravity="center" />
+
+                        <Spinner
+                            android:id="@+id/sp_s00119_mm"
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen35dp"
+                            android:layout_marginLeft="@dimen/dimen3dp"
+                            android:layout_marginRight="@dimen/dimen3dp"
+                            android:background="@drawable/input_box_bg"
+                            android:gravity="center" />
+
+                        <Spinner
+                            android:id="@+id/sp_s00119_dd"
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen35dp"
+                            android:layout_marginLeft="@dimen/dimen3dp"
+                            android:layout_marginRight="@dimen/dimen3dp"
+                            android:background="@drawable/input_box_bg"
+                            android:gravity="center" />
+
+                        <Spinner
+                            android:id="@+id/sp_s00119_pm"
+                            android:layout_width="@dimen/dimen25dp"
+                            android:layout_height="@dimen/dimen35dp"
+                            android:layout_marginLeft="@dimen/dimen3dp"
+                            android:layout_marginRight="@dimen/dimen3dp"
+                            android:background="@drawable/input_box_bg"
+                            android:gravity="center" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:layout_marginRight="@dimen/dimen10dp"
+                android:background="@drawable/pop_notice_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen10dp" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dimen10dp"
+                    android:gravity="center_vertical|start"
+                    android:text="시험기간 입력"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/dimen23pt" />
+
+                <!-- <TableLayout -->
+                <!-- android:layout_width="fill_parent" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_margin="@dimen/dimen10dp" -->
+                <!-- android:background="#dcdcdc" -->
+                <!-- android:stretchColumns="*" > -->
+
+
+                <!-- <View -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="1dp" -->
+                <!-- android:background="#d3d3d3" /> -->
+
+
+                <!-- <TableRow -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="wrap_content" > -->
+
+
+                <!-- <TextView -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+
+
+                <!-- <TextView -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:text="1학기" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+
+
+                <!-- <TextView -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:text="2학기" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+                <!-- </TableRow> -->
+
+
+                <!-- <View -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="1dp" -->
+                <!-- android:background="#d3d3d3" /> -->
+
+
+                <!-- <TableRow -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="wrap_content" > -->
+
+
+                <!-- <TextView -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:text="중간고사\n 시작일" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+
+
+                <!-- <TextView -->
+                <!-- android:id="@+id/tv_s00119_midterm1" -->
+                <!-- android:layout_width="fill_parent" -->
+                <!-- android:layout_height="fill_parent" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:background="#fff1e0" -->
+                <!-- android:clickable="true" -->
+                <!-- android:gravity="center_vertical" -->
+                <!-- android:text="2999년12월31일" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+
+
+                <!-- <TextView -->
+                <!-- android:id="@+id/tv_s00119_midterm2" -->
+                <!-- android:layout_width="fill_parent" -->
+                <!-- android:layout_height="fill_parent" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:background="#daf3fa" -->
+                <!-- android:clickable="true" -->
+                <!-- android:gravity="center_vertical" -->
+                <!-- android:text="2999년12월31일" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+                <!-- </TableRow> -->
+
+
+                <!-- <View -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="1dp" -->
+                <!-- android:background="#d3d3d3" /> -->
+
+
+                <!-- <TableRow -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="wrap_content" > -->
+
+
+                <!-- <TextView -->
+                <!-- android:layout_width="wrap_content" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:text="기말고사\n 시작일" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+
+
+                <!-- <TextView -->
+                <!-- android:id="@+id/tv_s00119_final1" -->
+                <!-- android:layout_width="fill_parent" -->
+                <!-- android:layout_height="fill_parent" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:background="#dae7f6" -->
+                <!-- android:clickable="true" -->
+                <!-- android:gravity="center_vertical" -->
+                <!-- android:text="2999년12월31일" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+
+
+                <!-- <TextView -->
+                <!-- android:id="@+id/tv_s00119_final2" -->
+                <!-- android:layout_width="fill_parent" -->
+                <!-- android:layout_height="fill_parent" -->
+                <!-- android:layout_gravity="center" -->
+                <!-- android:layout_marginBottom="@dimen/dimen1dp" -->
+                <!-- android:layout_marginLeft="@dimen/dimen1dp" -->
+                <!-- android:background="#ffe3eb" -->
+                <!-- android:clickable="true" -->
+                <!-- android:gravity="center_vertical" -->
+                <!-- android:text="2999년12월31일" -->
+                <!-- android:textColor="#505051" -->
+                <!-- android:textSize="@dimen/dimen21pt" /> -->
+                <!-- </TableRow> -->
+
+
+                <!-- <View -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="1dp" -->
+                <!-- android:background="#d3d3d3" /> -->
+                <!-- </TableLayout> -->
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen20dp"
+                    android:padding="@dimen/dimen1dp" >
+
+                    <TextView
+                        android:id="@+id/tv_s00119_term_input_base"
+                        android:layout_width="@dimen/dimen80dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:background="@color/color_eaeff3"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <!-- 1학기 -->
+
+                    <TextView
+                        android:id="@+id/tv_s00119_term_input_one"
+                        android:layout_width="@dimen/dimen120dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:layout_marginLeft="@dimen/dimen1dp"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_toEndOf="@+id/tv_s00119_term_input_base"
+                        android:layout_toRightOf="@+id/tv_s00119_term_input_base"
+                        android:background="@color/color_eaeff3"
+                        android:gravity="center"
+                        android:text="1학기"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <!-- 2학기 -->
+
+                    <TextView
+                        android:id="@+id/tv_s00119_term_input_two"
+                        android:layout_width="@dimen/dimen120dp"
+                        android:layout_height="@dimen/dimen30dp"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:layout_marginLeft="@dimen/dimen1dp"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_toEndOf="@+id/tv_s00119_term_input_one"
+                        android:layout_toRightOf="@+id/tv_s00119_term_input_one"
+                        android:background="@color/color_eaeff3"
+                        android:gravity="center"
+                        android:text="2학기"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <!-- 중간고사 시작일 -->
+
+                    <TextView
+                        android:id="@+id/tv_s00119_term_input_mid"
+                        android:layout_width="@dimen/dimen80dp"
+                        android:layout_height="@dimen/dimen50dp"
+                        android:layout_alignLeft="@+id/tv_s00119_term_input_base"
+                        android:layout_alignStart="@+id/tv_s00119_term_input_base"
+                        android:layout_below="@+id/tv_s00119_term_input_base"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:background="@color/color_eaeff3"
+                        android:gravity="center"
+                        android:text="중간고사\n시작일"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <!-- 기말고사 시작일 -->
+
+                    <TextView
+                        android:id="@+id/tv_s00119_term_input_final"
+                        android:layout_width="@dimen/dimen80dp"
+                        android:layout_height="@dimen/dimen50dp"
+                        android:layout_alignLeft="@+id/tv_s00119_term_input_base"
+                        android:layout_alignStart="@+id/tv_s00119_term_input_base"
+                        android:layout_below="@+id/tv_s00119_term_input_mid"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:background="@color/color_eaeff3"
+                        android:gravity="center"
+                        android:text="기말고사\n시작일"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <TextView
+                        android:id="@+id/tv_s00119_midterm1"
+                        android:layout_width="@dimen/dimen120dp"
+                        android:layout_height="@dimen/dimen50dp"
+                        android:layout_alignLeft="@+id/tv_s00119_term_input_one"
+                        android:layout_alignRight="@+id/tv_s00119_term_input_one"
+                        android:layout_alignStart="@+id/tv_s00119_term_input_one"
+                        android:layout_alignTop="@+id/tv_s00119_term_input_mid"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:layout_toEndOf="@+id/tv_s00119_term_input_mid"
+                        android:layout_toRightOf="@+id/tv_s00119_term_input_mid"
+                        android:background="#fff1e0"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="2999년 12월 31일"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <TextView
+                        android:id="@+id/tv_s00119_midterm2"
+                        android:layout_width="@dimen/dimen120dp"
+                        android:layout_height="@dimen/dimen50dp"
+                        android:layout_alignTop="@+id/tv_s00119_term_input_mid"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:layout_marginLeft="@dimen/dimen1dp"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_toEndOf="@+id/tv_s00119_midterm1"
+                        android:layout_toRightOf="@+id/tv_s00119_midterm1"
+                        android:background="#daf3fa"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="2999년12월31일"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <TextView
+                        android:id="@+id/tv_s00119_final1"
+                        android:layout_width="@dimen/dimen120dp"
+                        android:layout_height="@dimen/dimen50dp"
+                        android:layout_alignTop="@+id/tv_s00119_term_input_final"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:layout_marginLeft="@dimen/dimen1dp"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_toEndOf="@+id/tv_s00119_term_input_final"
+                        android:layout_toRightOf="@+id/tv_s00119_term_input_final"
+                        android:background="#dae7f6"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="2999년12월31일"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+
+                    <TextView
+                        android:id="@+id/tv_s00119_final2"
+                        android:layout_width="@dimen/dimen120dp"
+                        android:layout_height="@dimen/dimen50dp"
+                        android:layout_alignTop="@+id/tv_s00119_term_input_final"
+                        android:layout_marginBottom="@dimen/dimen1dp"
+                        android:layout_marginLeft="@dimen/dimen1dp"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_toEndOf="@+id/tv_s00119_final1"
+                        android:layout_toRightOf="@+id/tv_s00119_final1"
+                        android:background="#ffe3eb"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="2999년12월31일"
+                        android:textColor="#505051"
+                        android:textSize="@dimen/dimen21pt" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

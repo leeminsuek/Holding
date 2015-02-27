@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/d_pop_bg">
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_margin="8dp"
+            android:src="@drawable/d_pop_logo"/>
+        <ImageView
+	        android:id="@+id/iv_close"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_gravity="right"
+	        android:src="@drawable/selector_d_pop_close_btn"/>
+    </FrameLayout>
+    
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen20dp"
+        android:layout_marginBottom="@dimen/dimen15dp"
+        android:layout_gravity="center"
+        android:textColor="#3e3e3f"
+        android:textSize="@dimen/dimen23pt"
+        android:gravity="center"
+        android:text="@string/sc001_otherlogin_popup_desc"/>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/dimen20dp"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+        	android:layout_height="35dp"
+        	android:textSize="@dimen/dimen21pt"
+        	android:textColor="#ffffff"
+        	android:text="이 기기 사용"
+            android:background="@drawable/selector_d_pop_btn1"/>
+       	<Button
+       	    android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+        	android:layout_height="35dp"
+        	android:layout_marginLeft="@dimen/dimen10dp"
+        	android:textSize="@dimen/dimen21pt"
+        	android:textColor="#ffffff"
+        	android:text="취소"
+            android:background="@drawable/selector_d_pop_btn2"/>
+    </LinearLayout>
+</LinearLayout>

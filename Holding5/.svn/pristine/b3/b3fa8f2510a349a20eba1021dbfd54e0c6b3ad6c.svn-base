@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eaeff3"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/include_header"
+        layout="@layout/s00116_header" />
+
+    <ImageView
+        android:id="@+id/header_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/title_bg_sdw"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/include_header" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/include_header" >
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/listView1"
+        android:layout_alignTop="@id/listView1"
+        android:background="#eaeff3"
+        android:gravity="center"
+        android:text="등록된 알림이 없습니다"
+        android:textColor="#818181"
+        android:visibility="gone" />
+
+</RelativeLayout>

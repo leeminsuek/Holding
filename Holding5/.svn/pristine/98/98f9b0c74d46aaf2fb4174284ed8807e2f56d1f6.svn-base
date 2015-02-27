@@ -1,0 +1,496 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrond" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/title_bg" >
+
+        <ImageButton
+            android:id="@+id/title_more_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen10dp"
+            android:background="@color/clear"
+            android:src="@drawable/selector_title_ico_more" />
+
+        <ImageButton
+            android:id="@+id/title_logo_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen15dp"
+            android:background="@color/clear"
+            android:src="@drawable/main_logo_img" />
+
+        <ImageButton
+            android:id="@+id/title_alram_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/title_more_btn"
+            android:background="@color/clear"
+            android:src="@drawable/selector_title_ico_alram" />
+
+        <ImageButton
+            android:id="@+id/title_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/title_alram_btn"
+            android:background="@color/clear"
+            android:src="@drawable/selector_title_ico_maggls" />
+
+        <com.br.holding5.ms.BadgeView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/title_logo_btn"
+            android:layout_marginBottom="@dimen/dimen5dp"
+            android:layout_marginRight="@dimen/dimen7dp"
+            android:layout_toLeftOf="@+id/title_more_btn"
+            android:text="9" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/main_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:layout_marginRight="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen15dp"
+                android:background="@drawable/content_box_bg"
+                android:padding="@dimen/dimen10dp" >
+
+                <EditText
+                    android:id="@+id/main_search_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/input_box_bg"
+                    android:maxLength="20" >
+                </EditText>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/main_search_edit"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical" >
+
+                        <RadioButton
+                            android:id="@+id/search_type_1_radio_btn"
+                            style="@style/search_radio_text"
+                            android:layout_width="1dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:layout_marginLeft="@dimen/dimen15dp"
+                            android:layout_marginTop="@dimen/dimen5dp"
+                            android:layout_weight="1"
+                            android:button="@drawable/selector_main_search_check"
+                            android:checked="true"
+                            android:gravity="center_vertical"
+                            android:text="글 내용" />
+
+                        <RadioButton
+                            android:id="@+id/search_type_2_radio_btn"
+                            style="@style/search_radio_text"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:layout_marginLeft="@dimen/dimen5dp"
+                            android:layout_marginTop="@dimen/dimen5dp"
+                            android:layout_weight="1"
+                            android:button="@drawable/selector_main_search_check"
+                            android:gravity="center_vertical"
+                            android:text="닉네임" />
+                    </LinearLayout>
+                </RadioGroup>
+
+                <View
+                    android:id="@+id/line_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/radioGroup2"
+                    android:background="@drawable/ico_group_line" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line_view" >
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingBottom="@dimen/dimen10dp"
+                                android:paddingLeft="@dimen/dimen15dp"
+                                android:paddingTop="@dimen/dimen10dp" >
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn0"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:checked="true"
+                                    android:text="전체" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn1"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="가벼운 이야기" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn3"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="성적, 학업문제" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn5"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="부모님과 갈등" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn7"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="가정형편, 경제" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn9"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="기타문제" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingBottom="@dimen/dimen10dp"
+                                android:paddingLeft="@dimen/dimen10dp"
+                                android:paddingTop="@dimen/dimen10dp" >
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn2"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="왕따, 학교폭력" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn4"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="친구, 이성문제" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn6"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="선생님과 갈등" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn8"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="외모문제" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn10"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="극복수기" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_btn11"
+                                    style="@style/search_radio_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/dimen5dp"
+                                    android:button="@drawable/selector_main_search_check"
+                                    android:text="긴급SOS" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RadioGroup>
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/main_search_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/radioGroup2"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/main_search_edit"
+                    android:background="@drawable/selector_main_search_btn" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_report_layout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen10dp" >
+
+            <LinearLayout
+                android:id="@+id/linear_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/content_box_bg"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen10dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="@dimen/dimen10dp"
+                        android:background="@drawable/input_box_bg"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:text="신고하기"
+                            android:textColor="#505051"
+                            android:textSize="@dimen/dimen23pt"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="신고할 이유를 선택해주세요."
+                            android:textColor="#505051"
+                            android:textSize="@dimen/dimen19pt" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:background="@drawable/set_menu_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen25dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:layout_marginTop="@dimen/dimen10dp"
+                    android:paddingBottom="@dimen/dimen10dp" >
+
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/dimen15dp"
+                >
+
+                        <RadioButton
+                            android:id="@+id/radioButton1"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:checked="true"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="음란성 게시물" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton3"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="개인정보 유출" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton5"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="타인 사칭" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton7"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="기타 악플" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/dimen25dp"
+                     >
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="욕설 및 비방" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton4"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen5dp"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="도배" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton6"
+                            style="@style/search_radio_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/selector_main_search_check"
+                            android:text="홍보 및 광고" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:layout_below="@+id/linear_top" >
+
+                <ImageButton
+                    android:id="@+id/report_btn"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_btn_report" />
+
+                <ImageButton
+                    android:id="@+id/report_cancle_btn"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/clear"
+                    android:src="@drawable/selector_btn_report_cancle" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="@dimen/dimen10dp"
+            android:paddingBottom="@dimen/dimen15dp"
+            android:paddingLeft="@dimen/dimen10dp"
+            android:paddingRight="@dimen/dimen10dp"
+            android:paddingTop="@dimen/dimen15dp" >
+        </ListView>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/main_write_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/clear"
+        android:src="@drawable/selector_main_write" />
+
+</RelativeLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen200dp"
+    android:background="@color/backgrond"
+    android:visibility="gone"
+    android:clickable="true"
+    android:padding="@dimen/dimen10dp"
+    android:paddingBottom="@dimen/dimen50dp" >
+
+    <Button
+        android:id="@+id/btn_s00120_show_more"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen50dp"
+        android:layout_marginLeft="@dimen/dimen25dp"
+        android:layout_marginRight="@dimen/dimen25dp"
+        android:background="#85d3f2"
+        android:layout_marginBottom="@dimen/dimen25dp"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"
+        android:duplicateParentState="true"
+        android:text="더보기"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen18pt"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp" />
+
+</RelativeLayout>

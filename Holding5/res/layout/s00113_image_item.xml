@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+         android:layout_marginBottom="@dimen/dimen5dp" 
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.br.holding5.ms.ResizeImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/resize_imgview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+   >
+    </com.br.holding5.ms.ResizeImageView>
+
+</RelativeLayout>

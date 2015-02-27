@@ -1,0 +1,50 @@
+<resources>
+    <dimen name="voicetool_record_total_width">52dp</dimen>
+    <dimen name="voicetool_record_total_height">52dp</dimen>
+    <dimen name="voicetool_container_width">282dp</dimen>
+    <dimen name="voicetool_container_height">63dp</dimen>
+    <dimen name="voicetool_record_button_width">27dp</dimen>
+    <dimen name="voicetool_record_button_height">27dp</dimen>
+    <dimen name="voicetool_record_graph_width">165dp</dimen>
+    <dimen name="voicetool_record_graph_height">56dp</dimen>
+    <dimen name="voicetool_play_button_width">38dp</dimen>
+    <dimen name="voicetool_play_button_height">38dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    
+    <dimen name="dimen1dp">1dp</dimen>
+    <dimen name="dimen3dp">3dp</dimen>
+    <dimen name="dimen5dp">5dp</dimen>
+    <dimen name="dimen7dp">7dp</dimen>
+    <dimen name="dimen10dp">10dp</dimen>
+    <dimen name="dimen15dp">15dp</dimen>
+    <dimen name="dimen20dp">20dp</dimen>
+    <dimen name="dimen25dp">25dp</dimen>
+    <dimen name="dimen30dp">30dp</dimen>
+    <dimen name="dimen35dp">35dp</dimen>
+    <dimen name="dimen50dp">50dp</dimen>
+    <dimen name="dimen80dp">80dp</dimen>
+	<dimen name="dimen100dp">100dp</dimen>
+	<dimen name="dimen120dp">120dp</dimen>
+	<dimen name="dimen200dp">200dp</dimen>
+    
+    <dimen name="dimen9sp">9sp</dimen>
+    <dimen name="dimen12sp">12sp</dimen>
+    <dimen name="dimen14sp">14sp</dimen>
+    <dimen name="dimen16sp">16sp</dimen>
+    
+    <dimen name="dimen27pt">15.8sp</dimen>
+    <dimen name="dimen25pt">14.3sp</dimen>
+    <dimen name="dimen23pt">12.8sp</dimen>
+    <dimen name="dimen22pt">12.3sp</dimen>
+    <dimen name="dimen21pt">11.7sp</dimen>
+    <dimen name="dimen20pt">11.1sp</dimen>
+    <dimen name="dimen19pt">10.6sp</dimen>
+    <dimen name="dimen18pt">10.0sp</dimen>
+    <dimen name="dimen17pt">9.4sp</dimen>
+    
+    
+    
+</resources>

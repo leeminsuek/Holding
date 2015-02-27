@@ -1,0 +1,712 @@
+package com.br.holding5.sc003;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Dialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Video.Thumbnails;
+import android.text.Editable;
+import android.text.Selection;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.br.holding5.Global;
+import com.br.holding5.base.BaseActivity;
+import com.br.holding5.ms.AudioView;
+import com.br.holding5.ms.AudioView.getFilePathListener;
+import com.br.holding5.ms.Common;
+import com.br.holding5.ms.MSUtil;
+import com.br.holding5.sc003.S00113_ListAdapter.statusCallBack;
+import com.br.holding5.sc003.gallery.CustomGallery;
+import com.br.holding5.sc003.gallery.DeleteImageView;
+import com.br.holding5.sc003.gallery.DeleteImageView.onDeleteImageCallback;
+import com.brainyx.holding5.R;
+import com.brainyxlib.BrUtilManager;
+import com.brainyxlib.image.BrImageUtilManager;
+
+public class SC003_ReplyView extends BaseActivity implements statusCallBack {
+
+	private final int GALLERY_REQUEST_CODE = 1000;
+	private final int CAMERA_CROP_REQUEST_CODE = 1001;
+	private final int CAMERA_CROP_FROM_REQUEST_CODE = 1002;
+	private final int VIDEO_REQUEST_CODE = 1003;
+	private ArrayList<String> mSelectImg = new ArrayList<String>();
+	//	private ArrayList<DeleteImageView> mPictureArr = new ArrayList<DeleteImageView>();
+	private ArrayList<Bitmap> mPictureBitmapArr = new ArrayList<Bitmap>();
+	private Bitmap mVideoThumbnail;
+	private boolean mChangeDataYn = false;
+	private int mSelectType = 0;
+	private int mSelectPosition = 0 ;
+	private Uri mCropImageCacheUri;
+	private Uri mCropFromImageUri;
+	private String mCropImagePath;
+	private DeleteImageView mReplyPhotoView;
+
+	private RadioButton mSearchTypeRadioBtn1;
+	private RadioButton mSearchTypeRadioBtn2;
+
+	private EditText		mReplyEditText;
+	private ImageButton 	mAddPictureBtn;
+	private ImageButton 	mCropAddPictureBtn;
+	private ImageButton 	mAudioAddBtn;
+	private ImageButton 	mReplyAddBtn;
+	private ImageButton 	mVideoAddBtn;
+	private CheckBox		mUnknownCheckBox;
+		
+	private int mSelectImgCount = 0;
+	private final int MAX_SELECT_COUNT = 1;
+	private int mUploadFileType;
+
+	private S00113_ListAdapter mReplyAdapter;
+	private ArrayList<ReplyVO> mReplyItems;
+
+	private ListView		mReplyListView;
+	private String mUserId = "test1";
+	private int mSeq;
+	private boolean mUnknown;
+	private boolean mUnknownCheck;
+
+	private LinearLayout mLoadingLayout;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		 getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		setContentView(R.layout.s00113_reply_view);
+		Intent resultIntent = getIntent();
+		mSeq = resultIntent.getIntExtra("seq", 0);
+		mUnknown = resultIntent.getBooleanExtra("munknown", false);
+
+		mReplyItems = new ArrayList<ReplyVO>();
+		
+		mUnknownCheckBox = (CheckBox) findViewById(R.id.unknown_check);
+		mLoadingLayout = (LinearLayout) findViewById(R.id.linearLayout_loading);
+		mReplyListView = (ListView) findViewById(R.id.reply_list);
+		mAddPictureBtn = (ImageButton) findViewById(R.id.add_picture_btn);
+		mVideoAddBtn = (ImageButton) findViewById(R.id.add_video_btn);
+		mReplyEditText = (EditText) findViewById(R.id.reply_edit_text);
+		mReplyAddBtn = (ImageButton) findViewById(R.id.reply_add_btn);
+		mCropAddPictureBtn = (ImageButton) findViewById(R.id.crop_add_picture_btn);
+		mAudioAddBtn = (ImageButton) findViewById(R.id.add_audio_btn);
+		mSearchTypeRadioBtn1 = (RadioButton) findViewById(R.id.search_type_1_radio_btn);
+		mSearchTypeRadioBtn2 = (RadioButton) findViewById(R.id.search_type_2_radio_btn);
+		mReplyPhotoView = (DeleteImageView) findViewById(R.id.reply_photo_img);
+		mSearchTypeRadioBtn1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked) mSelectType = 0;
+				requestReplyList();
+			}
+		});
+
+		mSearchTypeRadioBtn2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked) mSelectType = 1;
+				requestReplyList();
+			}
+		});
+		mReplyPhotoView.setOnDeleteImageCallback(new onDeleteImageCallback() {
+			@Override
+			public void deleteImageCallback(int type) {
+				mSelectImg.clear();
+				mReplyPhotoView.setVisibility(View.GONE);
+			}
+		});
+		mReplyAddBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mReplyPhotoView.getVisibility() == View.VISIBLE) {
+					uploadFile();
+				}
+				else {
+					requestReplyAdd("", "", "");
+				}
+			}
+		});
+		//		mReplyListView.setOnTouchListener(new OnTouchListener() {
+		//			public boolean onTouch(View v, MotionEvent event) {
+		//				mReplyListView.requestDisallowInterceptTouchEvent(true);
+		//				return false;
+		//			}
+		//		});
+		mAddPictureBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(MAX_SELECT_COUNT - mSelectImgCount <= 0) {
+					BrUtilManager.getInstance().showToast(getBaseContext(), "더이상 선택 할 수 없습니다.");
+				}
+				else {
+					if(mSelectImg.size() > 0 ) {
+						BrUtilManager.getInstance().showToast(SC003_ReplyView.this, "한가지만 업로드 가능합니다.");
+					}
+					else {
+						Intent intent = new Intent(SC003_ReplyView.this,CustomGallery.class);
+						intent.putExtra("size", 1);//선택가능한갯수
+						startActivityForResult(intent, GALLERY_REQUEST_CODE);	
+					}
+				}
+			}
+		});
+		mVideoAddBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(Intent.ACTION_PICK);
+				i.setType("video/*");
+				startActivityForResult(i, VIDEO_REQUEST_CODE);
+			}
+		});
+		mCropAddPictureBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mSelectImg.size() > 0) {
+					BrUtilManager.getInstance().showToast(SC003_ReplyView.this, "한가지만 업로드 가능합니다.");
+				}
+				else {
+					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+					// 임시로 사용할 파일의 경로를 생성
+					String url = "tmp_" + String.valueOf(System.currentTimeMillis())+ ".jpg";
+					mCropImageCacheUri = Uri.fromFile(new File(myApp.getFileDir_Ex(), url));
+
+					intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,mCropImageCacheUri);
+					intent.putExtra("return-data", true);
+					intent.putExtra("passok", "ok");
+					startActivityForResult(intent, CAMERA_CROP_REQUEST_CODE);
+				}
+
+			}
+		});
+
+		mAudioAddBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				if(mSelectImg.size() > 0 ) {
+					BrUtilManager.getInstance().showToast(SC003_ReplyView.this, "한가지만 업로드 가능합니다.");
+				}
+				else {
+
+					AudioView popup = new AudioView(SC003_ReplyView.this);
+
+					PopupWindow popupWindow = new PopupWindow(popup, android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT, true);
+
+					popupWindow.showAtLocation(popup, Gravity.NO_GRAVITY, 0,0);
+					popup.setPopupWindow(popupWindow);
+					popup.setOnGetFilePathListener(new getFilePathListener() {
+						@Override
+						public void getFilePathCallback(String path) {
+							File testfile = new File(myApp.getFileDir_Ex() + Common.getFileKey() + ".mp4");
+
+							mSelectImg.clear();
+							mSelectImg.add(path);
+							mUploadFileType = 2;
+							mReplyPhotoView.setVisibility(View.VISIBLE);
+							mReplyPhotoView.setImage(R.drawable.write_add_record_bg, 3);
+						}
+					});
+				}
+
+			}
+		});
+		
+		if(mUnknown == true) {
+			mUnknownCheckBox.setChecked(true);
+			mUnknownCheckBox.setClickable(false);
+			mUnknownCheck= true;
+		}
+		else {
+			mUnknownCheckBox.setChecked(false);
+			mUnknownCheckBox.setClickable(true);
+			mUnknownCheck = false;
+			mUnknownCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					mUnknownCheck = isChecked;
+				}
+			});
+		}
+//		mReplyAdapter = new SC003_ListAdapter(this, mReplyItems, this, mUnknown);
+		mReplyListView.setAdapter(mReplyAdapter);
+
+		requestReplyList();
+
+	}
+	public void uploadFile(){
+		AWSFileUploader2 uploader = new AWSFileUploader2(this);
+		uploader.setAwsAccesskey("AKIAJRVQWLQAFSWNG5XQ"); 
+		uploader.setAwsSecretKey("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");
+		uploader.setAWSBuckekName("brainyx1");//버킷이름
+		String[] files = null;
+		String[] filesPath  = null;
+		if(mSelectImg.size() == 2) {
+			files = new String[mSelectImg.size()];
+			files[0] = mSelectImg.get(1).substring(mSelectImg.get(1).lastIndexOf("/")+1, mSelectImg.get(1).length());
+			files[1] = mSelectImg.get(0).substring(mSelectImg.get(0).lastIndexOf("/")+1, mSelectImg.get(0).length());
+			
+			filesPath = new String[mSelectImg.size()];
+			filesPath[0] = mSelectImg.get(1).substring(1, mSelectImg.get(1).lastIndexOf("/")+1);
+			filesPath[1] = mSelectImg.get(0).substring(0, mSelectImg.get(0).lastIndexOf("/")+1);
+		}
+		else {
+			files = new String[1];
+			files[0] = mSelectImg.get(0).substring(mSelectImg.get(0).lastIndexOf("/")+1, mSelectImg.get(0).length());
+
+			filesPath = new String[1];
+			filesPath[0] = mSelectImg.get(0).substring(0, mSelectImg.get(0).lastIndexOf("/")+1);
+		}
+	
+
+		uploader.setFiles(files);
+		uploader.setFilesPath(filesPath);
+
+		uploader.setListener(new AWSFileUploader2.OnResultListener() { // 업로드완료후 콜백
+			@Override
+			public boolean setOnResultListener(boolean result) {
+				//				Log.e("TAG", result+"");
+				//성공
+				if(result) {
+				}
+				//실패
+				else {
+
+				}
+				return false;
+			}
+
+			@Override
+			public void setOnResult(ArrayList<String> result) {
+				Log.d("IMG_URI", result.get(0));
+				for(int i = 0 ; i < result.size() ; i ++) {
+					if(mUploadFileType == 1) {
+						requestReplyAdd(result.get(i), "", "");
+					}
+					else if(mUploadFileType == 2) {
+						requestReplyAdd("", result.get(i), "");
+					}
+					else if(mUploadFileType == 3) {
+						requestReplyAdd(result.get(1), "", result.get(0));
+					}
+					//					requestReplyAdd(result.get(i), "", "");
+				}
+
+			}
+		});
+		uploader.execute();
+	}
+	private Uri getImageUri(String path) {
+		return Uri.fromFile(new File(path));
+	}
+
+
+	private void loadImage(String path, DeleteImageView imageLayout) {
+		Bitmap resize = BrImageUtilManager.getInstance().getBitmap(path, true,800,600);
+
+		File testfile = new File(myApp.getFileDir_Ex() + MSUtil.getFileKey() + ".jpg");
+		boolean flag = BrImageUtilManager.getInstance().saveOutput(this,resize,getImageUri(testfile.getAbsolutePath()));
+
+		mPictureBitmapArr.add(resize);
+		//		myApp.imageloder.displayImage(path, imageLayout.getImageView(), myApp.options);
+	}
+
+	private void initSelectImage() {
+		try {
+			AsyncTask<Void, Void, Void> loadImage = new AsyncTask<Void, Void, Void>() {
+
+				@Override
+				protected Void doInBackground(Void... params) {
+					loadImage(mSelectImg.get(0) , mReplyPhotoView);
+					return null;
+				}
+
+				@Override
+				protected void onPreExecute() {
+					mLoadingLayout.setVisibility(View.VISIBLE);
+					super.onPreExecute();
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);
+
+
+
+					//					for(int i = 0 ;i < mPictureBitmapArr.size() ; i++) {
+					//
+					//						for(int j = 0 ; j < mPictureArr.size() ; j++) {
+					//							if(!mPictureArr.get(j).isPictureYn()) {
+					//								mPictureArr.get(j).setImage(mPictureBitmapArr.get(i));
+					//								break;
+					//							}
+					//						}
+					//					}
+					mReplyPhotoView.setVisibility(View.VISIBLE);
+					mReplyPhotoView.setImage(mPictureBitmapArr.get(0), 1);
+					mLoadingLayout.setVisibility(View.GONE);
+					//					getSelectImageCnt();
+				}
+
+				@Override
+				protected void onProgressUpdate(Void... values) {
+					super.onProgressUpdate(values);
+				}
+			};
+
+			loadImage.execute();
+		} catch (Exception e) {
+
+		}
+	}
+
+	private void requestReplyAdd(String photo, String audio, String video) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("no", mSeq);
+		params.put("commentContents", mReplyEditText.getText().toString());
+		
+		params.put("photoName", photo);
+		params.put("movName", video);
+		params.put("audioName", audio);
+		params.put("tagId", mUserId);
+		if(mUnknownCheck) {
+			params.put("commentId", "test1");
+			params.put("tempName",myApp.getTempResource());
+		}
+		else {
+			params.put("commentId", "test1");
+			params.put("tempName", "");
+		}
+		
+
+		AQuery aquery = new AQuery(this);	
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_ADD_REPLY, params, JSONObject.class, this, "replyAddCallBack");
+	}
+
+	public void replyAddCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		Log.d("json", jsonObject.toString());
+		boolean result = jsonObject.getBoolean("result");
+
+		if(result) {
+			mChangeDataYn = true;
+			mReplyEditText.setText("");
+			mReplyPhotoView.setVisibility(View.GONE);
+			mReplyPhotoView.setDefaultImage();
+			mSelectImgCount = 0;
+			requestReplyList();
+		}
+		else {
+
+		}
+	}
+	private void requestReplyLike(int seq, String userId) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("seq", seq+"");
+		params.put("userId", userId);
+
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_REPLY_LIKE, params, JSONObject.class, this, "replyLikeCallBack");
+	}
+
+	public void replyLikeCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		Log.d("json", jsonObject.toString());
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			mReplyItems.get(mSelectPosition).setLikeCnt(mReplyItems.get(mSelectPosition).getLikeCnt()+1);
+			mReplyAdapter.notifyDataSetChanged();
+			mChangeDataYn = true;
+		}
+		else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+
+	private void requestReplyReport(int seq, String userId, int kind) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("seq", seq+"");
+		params.put("userId", userId);
+		params.put("kind", kind+"");
+
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_REPLY_REPORT, params, JSONObject.class, this, "replyReportCallBack");
+	}
+
+	public void replyReportCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		Log.d("json", jsonObject.toString());
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			BrUtilManager.getInstance().showToast(this, message);
+			//			int count = Integer.parseInt(mIcoReplyTxt.getText().toString());
+			//			mIcoReplyTxt.setText((count+1)+"");
+			mReplyItems.get(mSelectPosition).setReportCnt(mReplyItems.get(mSelectPosition).getReportCnt()+1);
+			mReplyAdapter.notifyDataSetChanged();
+			mChangeDataYn = true;
+		}
+		else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+
+	private void requestReplyList() {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("seq", mSeq+"");
+		params.put("sort", mSelectType+"");
+
+		AQuery aquery = new AQuery(this);
+
+		Dialog dialog = new Dialog(this, R.style.TransDialog);
+		dialog.setContentView(new ProgressBar(this));
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		//		dialog.show();	
+
+		aquery.progress(dialog).ajax(Global.BOARD_REPLY, params, JSONObject.class, this, "replyListCallBack");
+	}
+
+	public void replyListCallBack(String url, JSONObject jsonObject, AjaxStatus status) throws JSONException {
+		boolean result = jsonObject.getBoolean("result");
+		String message = jsonObject.getString("message");
+		if(result) {
+			mReplyItems.clear();
+			Log.d("json_tag", jsonObject.toString());
+			JSONArray items = jsonObject.getJSONArray("data");
+			for(int i = 0 ; i < items.length() ; i ++) {
+				JSONObject item = items.getJSONObject(i);
+				int sex = item.getInt("sex");
+				int likeCnt = item.getInt("likeCnt");
+				int no = item.getInt("no");
+				String commentContents = item.getString("commentContents");
+				String birthDay = item.getString("birthDay");
+				int type = item.getInt("type");
+				String tagId = item.getString("tagId");
+				String commentId = item.getString("commentId");
+				String tagNickName = item.getString("tagNickName");
+				String commentTime = item.getString("commentTime");
+				String nickName = item.getString("nickName");
+				int reportCnt = item.getInt("reportCnt");
+				String movName = item.getString("movName");
+				String audioName = item.getString("audioName");
+				String photoName = item.getString("photoName");
+//				int unknown = item.getInt("unknown");
+				int seq = item.getInt("seq");
+//				String tempName = item.getString("tempName");
+
+				ReplyVO reply = new ReplyVO();
+				reply.setMovName(movName);
+				reply.setAudioName(audioName);
+				reply.setPhotoName(photoName);
+				reply.setSex(sex);
+				reply.setLikeCnt(likeCnt);
+				reply.setNo(no);
+				reply.setCommentContents(commentContents);
+				reply.setBirthDay(birthDay);
+				reply.setType(type);
+				reply.setTagId(tagId);
+				reply.setCommentId(commentId);
+				reply.setTagNickName(tagNickName);
+				reply.setCommentTime(commentTime);
+				reply.setNickName(nickName);
+				reply.setReportCnt(reportCnt);
+				reply.setSeq(seq);
+//				reply.setUnknown(unknown);
+				reply.setTempName(myApp.getTempResource());
+				mReplyItems.add(reply);
+			}
+
+			mReplyAdapter.notifyDataSetChanged();
+			//			BrUtilManager.getInstance().showToast(this, message);
+			//			Log.d("json_TAg", jsonObject.toString());
+			//			mListItems.get(mSelectPosition).setRepotCnt(mListItems.get(mSelectPosition).getRepotCnt() +1);
+			//			mListAdapter.notifyDataSetChanged();
+		}
+		else {
+			BrUtilManager.getInstance().showToast(this, message);
+		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		try {
+			if(resultCode != RESULT_OK){
+				if(resultCode == RESULT_FIRST_USER){
+					//					doTakePhotoAction();
+				}else{
+					//					filetype = 0;
+					//					return;	 
+				}
+			}else{
+				if(requestCode == GALLERY_REQUEST_CODE){
+					mUploadFileType = 1;
+					mSelectImg.clear();
+					mPictureBitmapArr.clear();
+					mSelectImg = data.getStringArrayListExtra("simg");
+					Log.d("TAG", mSelectImg.get(0));
+					Log.d("TAG", mSelectImg.get(0).substring(0, mSelectImg.get(0).lastIndexOf("/")+1));
+					Log.d("TAG", mSelectImg.get(0).substring(mSelectImg.get(0).lastIndexOf("/")+1, mSelectImg.get(0).length()));
+					Log.d("TAG",Environment.getExternalStorageDirectory().toString() + "/");
+					initSelectImage();
+					//					for(int i = 0 ; i < mSelectImg.size() ; i ++) {
+					//						loadImage(mSelectImg.get(i) , mPictureArr.get(i));
+					//					}
+				}
+				else if(requestCode == CAMERA_CROP_REQUEST_CODE) {
+					mUploadFileType = 1;
+					File outFilePath = new File(myApp.getFileDir_Ex() + "/tmp_"+ System.currentTimeMillis() + ".jpg");
+
+					mCropFromImageUri = Uri.fromFile(outFilePath);
+
+					Intent intent = new Intent("com.android.camera.action.CROP");
+					intent.setDataAndType(mCropImageCacheUri, "image/*");
+					intent.putExtra("scale", true);
+					intent.putExtra("outputFormat", "JPEG");
+					intent.putExtra("output", mCropFromImageUri); // 파일로 저장
+					try {
+						startActivityForResult(intent, CAMERA_CROP_FROM_REQUEST_CODE);
+					} catch (Exception e) {
+						e.getMessage();
+					}
+				}
+				else if(requestCode == CAMERA_CROP_FROM_REQUEST_CODE) {
+					mUploadFileType = 1;
+					if (mCropFromImageUri != null) {
+						mSelectImg.clear();
+						mPictureBitmapArr.clear();
+						Bitmap photo = null;
+						mCropImagePath = mCropFromImageUri.getPath();
+						try {
+							photo = Images.Media.getBitmap(getContentResolver(),mCropFromImageUri);
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						ByteArrayOutputStream byteArr = new ByteArrayOutputStream();
+						Bitmap curThumb = photo;
+						curThumb.compress(CompressFormat.JPEG, 70, byteArr);
+						mSelectImg.add(mCropImagePath);
+						initSelectImage();
+					}
+				}
+				else if(requestCode == VIDEO_REQUEST_CODE) {
+					mSelectImg.clear();
+					Uri uri = data.getData();
+					String path = getPath(uri);
+					mUploadFileType = 3;
+
+					//					
+//					File videoFile = new File(path);
+					//					
+					mVideoThumbnail = ThumbnailUtils.createVideoThumbnail(path, Thumbnails.MINI_KIND);
+					//					else {
+					File testfile = new File(myApp.getFileDir_Ex() + Common.getFileKey() + ".jpg");
+					boolean flag = BrImageUtilManager.getInstance().saveOutput(this,mVideoThumbnail,getImageUri(testfile.getAbsolutePath()));
+					mSelectImg.add(testfile.getAbsolutePath());
+					mSelectImg.add(path);
+					mReplyPhotoView.setImage(mVideoThumbnail, 2);
+//					getSelectImageCnt();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			//			linearLayout_loading.setVisibility(View.GONE);
+		}
+	}
+
+	public void onBackPressed() { // if child acticity end
+		super.onBackPressed();
+		Intent intent = getIntent();
+		intent.putExtra("yn", ((mChangeDataYn) ? 1 : 2));
+		setResult(RESULT_OK, intent);
+		finish();
+	} 
+
+
+	@Override
+	public void callback(int type, int seq, String userId, int position) {
+		mSelectPosition = position;
+		requestReplyLike(seq, userId);
+	}
+
+
+	@Override
+	public void reportCallback(int seq, String userId, int kind, int position) {
+		mSelectPosition = position;
+		requestReplyReport(seq, userId, kind);
+	}
+
+	@Override
+	public void nickNameCallback(String nickName) {
+
+		String edit = mReplyEditText.getText().toString() + "@" + nickName;
+		mReplyEditText.setText(edit);
+		Editable able = mReplyEditText.getText();
+		Selection.setSelection(able, able.length());
+	}
+	private String getPath(Uri uri) {
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(uri, projection, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+	@Override
+	public void deleteCallback(int seq, int position) {
+		
+	}
+}

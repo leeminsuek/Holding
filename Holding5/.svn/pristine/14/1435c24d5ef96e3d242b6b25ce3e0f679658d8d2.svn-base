@@ -1,0 +1,35 @@
+<resources>
+
+    <string name="app_name">Holding5</string>
+
+        <string name="sc008_happymsg">해피인 여러분 안녕하세요^^\n여기는 우리 청소년들을 위한 축하와 사랑의 격려 메시지를 입력하는 곳입니다.\n입력한 내용은 정해진 조건에 따라 자동으로 발송되게 됩니다.\n청소년에게 큰 힘이 되오니 정성껏 입력해 주시면 감사하겠습니다.</string>
+	<string name="sc008_happytop_1">이 곳은 청소년이 가입을 했을 때 환영인사를 하는 곳입니다.\n가입환영 멘트를 입력해 주세요.</string>
+	<string name="sc008_happytop_2">이 곳은 청소년들의 생일을 축하하는 곳이랍니다.\n생일축하 메시지를 입력해 주세요. 자동으로 생일에 발송됩니다.</string>
+	<string name="sc008_happytop_3">이 곳은 시험을 치는 청소년들을 격려하는 곳이랍니다.\n시험에 대한 격려의 메시지를 입력해 주세요. 시험일에 격려 메시지가 자동 발송됩니다.</string>
+	<string name="sc008_happytop_4">이 곳은 성년의날 축하를 하는 곳입니다.\n성년의날 축하에 맞는 메시지를 입력해 주세요. 해당일에 자동으로 메시지를 발송하게 됩니다.</string>
+	<string name="sc008_happytop_5">이 곳은 추석 축하를 하는 곳입니다.\n추석 축하에 맞는 메시지를 입력해 주세요. 해당일에 자동으로 메시지를 발송하게 됩니다.</string>
+	<string name="sc008_happytop_6">이 곳은 크리스마스 축하를 하는 곳입니다.\n크리스마스 축하에 맞는 메시지를 입력해 주세요. 해당일에 자동으로 메시지를 발송하게 됩니다.</string>
+	<string name="sc008_happytop_7">이 곳은 새해 축하를 하는 곳입니다.\n새해 축하에 맞는 메시지를 입력해 주세요. 해당일에 자동으로 메시지를 발송하게 됩니다.</string>
+	<string name="sc008_happytop_8">이 곳은 설날 축하를 하는 곳입니다.\n설날 축하에 맞는 메시지를 입력해 주세요. 해당일에 자동으로 메시지를 발송하게 됩니다.</string>
+	<string name="sc008_happytop_9">해피인 여러분,\n지금 이 순간도 벼랑끝에 내 몰린 우리의 청소년이 많이 있습니다.\n이들이 그 극한 어려움을 이겨낼 수 있도록 여러분이 생명의 메세지를 담아 주세요.</string>
+	<string name="sc008_happytop_9_detail">작성해 주신 희망 메시지를 확인 및 수정하는 곳입니다. 입력한 내용은 정해진 조건에 따라 자동으로 발송되게 됩니다. 청소년에게 큰 힘이 되오니 정성껏 입력해 주시면 감사하겠습니다.</string>
+	
+	<string name="sc001_login_id_hint">ID (이메일주소)</string>
+	<string name="sc001_login_pwd_hint">비밀번호</string>
+	<string name="sc001_find_pwd_desc"><![CDATA[<u>ID/PW가 기억나지 않으시나요?</u>]]></string>
+	<string name="sc001_popup_happyin_desc">해피인 &lt;font color=&quot;#6f9fd3&quot;&gt;%s&lt;/font&gt;님 접속을 환영 합니다.&lt;br&gt;&lt;br&gt;많은 사람들이 당신의 관심을 기다립니다.&lt;br&gt;좋은 활동 부탁드립니다.</string>
+	<string name="sc001_register_top_desc1">생명을 소중하게 생각하겠습니다.</string>
+	<string name="sc001_register_top_desc2">그리고 밝고 아름다운 세상을</string>
+	<string name="sc001_register_top_desc3">만들어가기 위해 선플운동을</string>
+	<string name="sc001_register_top_desc4">실천하기로 서약합니다..</string>
+	
+	<string name="sc001_otherlogin_popup_desc">현재 다른기기에서 동일 계정으로\n사용중입니다.\n\n이기기로 변경하시겠습니까?\n(변경시 다른폰은 자동 로그아웃됩니다.)</string>
+	<string name="sc001_register_bottom_desc1"><![CDATA[<u>서비스 이용 약관</u>]]></string>
+	<string name="sc001_register_bottom_desc2"><![CDATA[<u>개인정보보호정책</u>]]></string>
+	
+	<string name="sc00111_title">서비스 이용약관</string>
+	<string name="sc00112_title">개인정보보호정책</string>
+	
+	<string name="sc00111_desc">서비스 이용약관 dfsafdsafds fdsafdsaf fdsa fdsa</string>
+	<string name="sc00112_desc">개인정보보호정책 fdsa fdsa fsa</string>
+</resources>

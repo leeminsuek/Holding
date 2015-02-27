@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:padding="@dimen/dimen3dp" >
+
+    <RelativeLayout
+        android:id="@+id/rl_s00120_item_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="0dp"
+        android:background="@drawable/post_box_bg_01" 
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_s00120_item_bg_right"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingBottom="@dimen/dimen10dp"
+            android:paddingRight="@dimen/dimen10dp"
+            android:paddingTop="@dimen/dimen10dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_s00120_item_profile"
+                android:layout_width="@dimen/dimen50dp"
+                android:layout_height="@dimen/dimen50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/prf_box_bg"
+                android:background="@drawable/prf_img_01_m" />
+
+            <TextView
+                android:id="@+id/tv_s00120_item_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen27pt"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toEndOf="@+id/iv_s00120_item_profile"
+                android:layout_toRightOf="@+id/iv_s00120_item_profile"
+                android:text="원빈"
+                android:textColor="#3e3e3f"
+                android:textSize="@dimen/dimen23pt" />
+
+            <TextView
+                android:id="@+id/tv_s00120_item_msg_type"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen27pt"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="3.4dp"
+                android:layout_toEndOf="@+id/tv_s00120_item_nick_name"
+                android:layout_toRightOf="@+id/tv_s00120_item_nick_name"
+                android:text="부모님과 갈등"
+                android:textColor="#999999"
+                android:textSize="@dimen/dimen17pt" />
+
+            <TextView
+                android:id="@+id/tv_s00120_item_write_time"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen23pt"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="3.4dp"
+                android:text="2014.12.12"
+                android:textColor="#999999"
+                android:textSize="@dimen/dimen17pt" />
+
+            <TextView
+                android:id="@+id/tv_s00120_item_contents"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/tv_s00120_item_nick_name"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@+id/iv_s00120_item_profile"
+                android:layout_toRightOf="@+id/iv_s00120_item_profile"
+                android:maxLength="80"
+                android:text="지금은 많이 힘드시지금은 많이 힘드시지금은 많이 힘드시지금은 많이 힘드시지금은 많이 힘드시지금은 많이 힘드시지금은 많이 힘드시지금은 많이 힘드시겠지만"
+                android:textColor="#505051"
+                android:textSize="@dimen/dimen21pt" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
